@@ -8,10 +8,12 @@
 	
 	// Properties
 	Map.prototype.game 		= null;
-	Map.prototype.source 		= null;
+	Map.prototype.source 	= null;
 	Map.prototype.name 		= null;
-	Map.prototype.assets 		= null;
+	Map.prototype.assets 	= null;
 	Map.prototype.grid 		= null;
+	
+	Map.prototype.gridLines	= [];
 
 	// Methods	
 	Map.prototype.load = function () 
@@ -106,22 +108,34 @@
 	Map.prototype.drawGrid = function () 
 	{
 		this.game.debug ? console.log('Map.drawGrid') : null;
+		
+		var i = 0;
 	
 		var xlines = this.game.canvas.width/16+1;
-		for (var x = 0; x < xlines; x++) {
-			var line = new createjs.Shape();
-			line.x = x*16;
-			line.graphics.beginFill("#333333").rect(0, 0, 1, this.game.canvas.height);
-			this.game.stage.addChild(line)		
+		for (var x = 0; x < xlines; x++) {			
+			this.gridLines[i] = new createjs.Shape();
+			this.gridLines[i].x = x*16;
+			this.gridLines[i].graphics.beginFill("#333333").rect(0, 0, 1, this.game.canvas.height);
+			this.game.stage.addChild(this.gridLines[i]);
+			i++;
 		}
 		var ylines = this.game.canvas.height/16+1;
 		for (var y = 0; y < ylines; y++) {
-			var line = new createjs.Shape();
-			line.y = y*16;
-			line.graphics.beginFill("#333333").rect(0, 0, this.game.canvas.width, 1);
-			this.game.stage.addChild(line)
+			this.gridLines[i] = new createjs.Shape();
+			this.gridLines[i].y = y*16;
+			this.gridLines[i].graphics.beginFill("#333333").rect(0, 0, this.game.canvas.width, 1);
+			this.game.stage.addChild(this.gridLines[i]);
+			i++;
 		}
-		this.game.debug ? console.log('- Grid lines: ' + (x+y)) : null;
+		this.game.debug ? console.log('- Grid lines: ' + i) : null;
+	}
+	
+	Map.prototype.removeGrid = function () 
+	{
+		for (var i in this.gridLines) {
+			this.game.stage.removeChild(this.gridLines[i]);
+		}
+		this.gridLines = [];
 	}
 	
 	window.Map = Map;
