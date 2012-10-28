@@ -2,8 +2,7 @@
 
 	function Game (id, map, debug) 
 	{	
-		this.debug = typeof debug == 'boolean' ? debug : null;
-		console.log(this.debug);
+		this.debug = typeof debug == 'boolean' ? debug : false;
 		
 		// Get canvas and set up stage
 		this.canvas = document.getElementById(id);
@@ -46,9 +45,7 @@
 	Game.prototype.toggleDebug = function (on)
 	{		
 		if (typeof on === 'undefined' || typeof on !== 'boolean') {
-			if (this.debug !== null) {
-				this.debug = !this.debug;
-			}
+			this.debug = !this.debug;
 		} else {
 			this.debug = on;
 		} 
