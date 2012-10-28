@@ -52,9 +52,9 @@
 		
 		// Always remove first		
 		this.stage.removeChild(this.fps);
-		this.fps = null;
-		// To do: remove grid
-	
+		this.fps = null;		
+		this.map.removeGrid();
+		
 		if (this.debug) {
 			this.map.drawGrid();
 			this.drawFps();
