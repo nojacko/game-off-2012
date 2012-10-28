@@ -2,7 +2,8 @@
 
 	function Game (id, map, debug) 
 	{	
-		this.debug = typeof debug == 'boolean' ? debug : false;
+		this.debug = typeof debug == 'boolean' ? debug : null;
+		console.log(this.debug);
 		
 		// Get canvas and set up stage
 		this.canvas = document.getElementById(id);
@@ -29,8 +30,7 @@
 		this.debug ? console.log('Game.onMapLoad') : null;
 		
 		// Debugging Visuals
-		if (this.debug) {
-		}
+		this.toggleDebug(this.debug); 
 		
 		// Draw
 		this.map.drawMap();
@@ -44,25 +44,24 @@
 	}	
 	
 	Game.prototype.toggleDebug = function (on)
-	{
-		var debug = this.debug;
-		
+	{		
 		if (typeof on === 'undefined' || typeof on !== 'boolean') {
-			this.debug = !this.debug;
+			if (this.debug !== null) {
+				this.debug = !this.debug;
+			}
 		} else {
 			this.debug = on;
 		} 
 		
-		var hasChanged = this.debug !== debug; 
-		
-		if (this.debug && hasChanged) {
+		// Always remove first		
+		this.stage.removeChild(this.fps);
+		this.fps = null;
+		// To do: remove grid
+	
+		if (this.debug) {
 			this.map.drawGrid();
 			this.drawFps();
-		} else {
-			this.stage.removeChild(this.fps);
-			this.fps = null;
-			// To do: remove grid
-		}
+		} 		
 	}
 	
 	Game.prototype.drawFps = function ()
