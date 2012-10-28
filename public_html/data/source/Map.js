@@ -103,40 +103,25 @@
 	}
 	
 	
-	Map.prototype.drawGrid = function (points) 
+	Map.prototype.drawGrid = function () 
 	{
 		this.game.debug ? console.log('Map.drawGrid') : null;
-		
-		if (typeof points === 'undefined' || !points) {
-			// Lines
-			var xlines = this.game.canvas.width/16+1;
-			for (var x = 0; x < xlines; x++) {
-				var line = new createjs.Shape();
-				line.x = x*16;
-				line.graphics.beginFill("#333333").rect(0, 0, 1, this.game.canvas.height);
-				this.game.stage.addChild(line)		
-			}
-			var ylines = this.game.canvas.height/16+1;
-			for (var y = 0; y < ylines; y++) {
-				var line = new createjs.Shape();
-				line.y = y*16;
-				line.graphics.beginFill("#333333").rect(0, 0, this.game.canvas.width, 1);
-				this.game.stage.addChild(line)
-			}
-			this.game.debug ? console.log('- Grid lines: ' + (x+y)) : null;
-		} else {
-			// Points - very slow
-			for (var x = 0; x < this.game.canvas.width/16; x++) {
-				for (var y = 0; y < this.game.canvas.height/16; y++) {
-					var point = new createjs.Shape();
-					point.x = x*16 + 8;
-					point.y = y*16 + 8;
-					point.graphics.beginFill("#FFFF00").rect(0, 0, 1, 1);
-					this.stage.addChild(point)
-				}
-			}
-			this.game.debug ? console.log('- Points: ' + (x*y)) : null;
+	
+		var xlines = this.game.canvas.width/16+1;
+		for (var x = 0; x < xlines; x++) {
+			var line = new createjs.Shape();
+			line.x = x*16;
+			line.graphics.beginFill("#333333").rect(0, 0, 1, this.game.canvas.height);
+			this.game.stage.addChild(line)		
 		}
+		var ylines = this.game.canvas.height/16+1;
+		for (var y = 0; y < ylines; y++) {
+			var line = new createjs.Shape();
+			line.y = y*16;
+			line.graphics.beginFill("#333333").rect(0, 0, this.game.canvas.width, 1);
+			this.game.stage.addChild(line)
+		}
+		this.game.debug ? console.log('- Grid lines: ' + (x+y)) : null;
 	}
 	
 	window.Map = Map;
