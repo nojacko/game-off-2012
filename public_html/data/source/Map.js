@@ -7,11 +7,11 @@
 	}
 	
 	// Properties
-	Game.prototype.game 		= null;
-	Game.prototype.source 		= null;
-	Game.prototype.name 		= null;
-	Game.prototype.assets 		= null;
-	Game.prototype.grid 		= null;
+	Map.prototype.game 		= null;
+	Map.prototype.source 		= null;
+	Map.prototype.name 		= null;
+	Map.prototype.assets 		= null;
+	Map.prototype.grid 		= null;
 
 	// Methods	
 	Map.prototype.load = function () 
