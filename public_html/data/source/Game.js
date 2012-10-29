@@ -20,6 +20,8 @@
 	
 	Game.prototype.map 			= null;
 	
+	Game.prototype.frameTime	= 0.01;
+	
 	Game.prototype.playerGroup	= null;
 	Game.prototype.fps 			= null;
 	
@@ -51,6 +53,7 @@
 		this.stage.update();
 		
 		// Tick
+		this.frameTime = Math.roundToDp(1/30, 2);
 		createjs.Ticker.setFPS(30);
 		createjs.Ticker.addListener(this);	
 	}	
@@ -95,8 +98,12 @@
 	Game.prototype.tick = function ()
 	{
 		// FPS
-		if (this.fps !== null && createjs.Ticker.getTicks() % 10 == 0) {
-			this.fps.text = Math.floor(createjs.Ticker.getMeasuredFPS()) + ' fps';
+		if (createjs.Ticker.getTicks() % 10 == 0) {
+			var fps = Math.floor(createjs.Ticker.getMeasuredFPS());
+			this.frameTime = Math.roundToDp(1/fps, 2);
+			if (this.fps !== null) {
+				this.fps.text = fps + ' fps';
+			}
 		}
 		
 		// Players
