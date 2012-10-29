@@ -27,6 +27,11 @@
 	Player.prototype.moveQueue		= [];
 	
 	// Methods
+	Player.prototype.tick = function () 
+	{
+
+	}
+	
 	Player.prototype.setActive = function (active)
 	{
 		if (active) {

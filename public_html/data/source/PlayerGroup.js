@@ -37,9 +37,17 @@
 		}
 	}
 	
+	PlayerGroup.prototype.onClick = function ()
+	{
+		this.debug ? console.log('Game.onClick') : null;
+	}
+	
+	
 	PlayerGroup.prototype.tick = function ()
 	{
-	
+		for (var i in this.players) {
+			this.players[i].tick();
+		}
 	}	
 
 	window.PlayerGroup = PlayerGroup;
