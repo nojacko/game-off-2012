@@ -11,7 +11,7 @@
 		this.stage.snapToPixelEnabled = true;
 		
 		this.map = new Map(this, map);
-		this.map.load();
+		this.map.load();		
 	}
 		
 	// Properties
@@ -27,6 +27,10 @@
 	Game.prototype.onMapLoad = function () 
 	{
 		this.debug ? console.log('Game.onMapLoad') : null;
+		
+		// Size Canvas
+		this.canvas.width = this.map.xBlocks*this.map.blockSize;
+		this.canvas.height = this.map.yBlocks*this.map.blockSize;
 		
 		// Debugging Visuals
 		this.toggleDebug(this.debug); 
