@@ -40,6 +40,11 @@
 	PlayerGroup.prototype.onClick = function ()
 	{
 		this.debug ? console.log('Game.onClick') : null;
+		
+		if (this.activePlayer !== null) {
+			var block = this.game.map.coordsToBlock(this.game.stage.mouseX, this.game.stage.mouseY)
+			this.activePlayer.moveTo(block);
+		}
 	}
 	
 	

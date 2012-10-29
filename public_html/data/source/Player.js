@@ -25,12 +25,34 @@
 	Player.prototype.colour 		= null;
 	Player.prototype.moveTarget		= null;
 	Player.prototype.moveQueue		= [];
+	Player.prototype.speed			= 5; // Blocks per second
 	
 	// Methods
 	Player.prototype.tick = function () 
 	{
-
+		if (this.moveTarget === null && this.moveQueue.length > 0) {
+			this.moveTarget = this.moveQueue.shift();
+		}
+		
+		if (this.moveTarget !== null) {	
+			var distance = Math.distanceBetweenObjs(this, this.moveTarget.coords);
+			var moveDistance = this.speed*this.game.frameTime;
+			
+			// Finish movement
+			if (distance < moveDistance) {
+				this.x = this.moveTarget.coords.x;
+				this.y = this.moveTarget.coords.y;
+				this.moveTarget = null;
+			} else {
+				// To do: move X and Y based on angle 
+			}			
+		}
 	}
+	
+	Player.prototype.moveTo = function (block) 
+	{		
+		this.moveQueue.push(block);
+	}	
 	
 	Player.prototype.setActive = function (active)
 	{
