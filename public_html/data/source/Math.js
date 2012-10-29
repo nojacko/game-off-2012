@@ -1,7 +1,7 @@
-Math.prototype.toDegrees = function (x) { 
+Math.toDegrees = function (x) { 
 	return x * 180 / Math.PI; 
 }	
-Math.prototype.toRadian = function (x) { 
+Math.toRadian = function (x) { 
 	return x * Math.PI / 180; 
 }
 
@@ -9,10 +9,10 @@ Math.prototype.toRadian = function (x) {
 * Calculates the distance between two points.
 * Uses a^2 + b^2 = c^2
 */ 
-Math.prototype.distanceBetweenObjs = function (obj1, obj2) {
+Math.distanceBetweenObjs = function (obj1, obj2) {
 	return Math.distance2D(obj1.x, obj1.y, obj2.x, obj2.y)
 }
-Math.prototype.distance2D = function (x1, y1, x2, y2) { 
+Math.distance2D = function (x1, y1, x2, y2) { 
 	return Math.sqrt( Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2))
 }
 
@@ -21,10 +21,10 @@ Math.prototype.distance2D = function (x1, y1, x2, y2) {
 * if rotation is set it'll return the angle relative to rotation
 * @return int Left < 0 < Right
 */
-Math.prototype.angleBetweenObjs =  function (obj1, obj2, rotation) {
+Math.angleBetweenObjs =  function (obj1, obj2, rotation) {
 	return Math.angleBetweenPoints(obj1.x, obj1.y, obj2.x, obj2.y, rotation)
 }
-Math.prototype.angleBetweenPoints = function (x1, y1, x2, y2, rotation) { 
+Math.angleBetweenPoints = function (x1, y1, x2, y2, rotation) { 
 	// Calculate angle
 	var x = x2 - x1
 	var y = y2 - y1
