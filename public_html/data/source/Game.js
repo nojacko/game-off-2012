@@ -34,8 +34,8 @@
 		var game = this;
 		
 		// Size Canvas
-		this.canvas.width = this.map.xBlocks*this.map.blockSize;
-		this.canvas.height = this.map.yBlocks*this.map.blockSize;
+		this.canvas.width = this.map.xBlocks*this.map.blockSize + 1;
+		this.canvas.height = this.map.yBlocks*this.map.blockSize + 1;
 		
 		// onClick events
 		this.canvas.onclick = function () { game.onClick(); }
