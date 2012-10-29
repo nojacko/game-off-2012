@@ -16,6 +16,17 @@
 	Map.prototype.gridLines	= [];
 
 	// Methods	
+	Map.prototype.coordsToBlock = function (x, y)
+	{
+		var block = {};
+		block.x = Math.floor(x/this.blockSize);
+		block.y = Math.floor(y/this.blockSize);
+		block.coords = {};
+		block.coords.x = block.x * this.blockSize;
+		block.coords.y = block.y * this.blockSize;
+		return block;
+	}
+	
 	Map.prototype.load = function () 
 	{	
 		// Scope
