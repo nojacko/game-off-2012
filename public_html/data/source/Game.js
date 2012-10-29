@@ -20,7 +20,7 @@
 	
 	Game.prototype.map 			= null;
 	
-	Game.prototype.activePlayer	= null;
+	Game.prototype.playerGroup	= null;
 	Game.prototype.fps 			= null;
 	
 	// Methods	
@@ -30,6 +30,9 @@
 		
 		// Debugging Visuals
 		this.toggleDebug(this.debug); 
+		
+		// Set Up
+		this.playerGroup = new PlayerGroup(this);
 		
 		// Draw
 		this.map.drawMap();
@@ -78,6 +81,10 @@
 		if (this.fps !== null && createjs.Ticker.getTicks() % 10 == 0) {
 			this.fps.text = Math.floor(createjs.Ticker.getMeasuredFPS()) + ' fps';
 		}
+		
+		// Players
+		this.playerGroup.tick();
+		
 		// Render
 		this.stage.update();
 	}		
