@@ -20,11 +20,13 @@
 	Player.prototype = new createjs.Shape();
 	
 	// Properties
-	PlayerGroup.prototype.game			= null;
-	PlayerGroup.prototype.playerGroup 	= null;
-	PlayerGroup.prototype.color 		= null;
+	Player.prototype.game			= null;
+	Player.prototype.playerGroup 	= null;
+	Player.prototype.colour 		= null;
+	Player.prototype.moveTarget		= null;
+	Player.prototype.moveQueue		= [];
 	
-	// Methods	
+	// Methods
 	Player.prototype.setActive = function (active)
 	{
 		if (active) {
