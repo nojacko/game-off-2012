@@ -28,9 +28,15 @@
 	{
 		this.debug ? console.log('Game.onMapLoad') : null;
 		
+		// Scope
+		var game = this;
+		
 		// Size Canvas
 		this.canvas.width = this.map.xBlocks*this.map.blockSize;
 		this.canvas.height = this.map.yBlocks*this.map.blockSize;
+		
+		// onClick events
+		this.canvas.onclick = function () { game.onClick(); }
 		
 		// Debugging Visuals
 		this.toggleDebug(this.debug); 
@@ -48,6 +54,13 @@
 		createjs.Ticker.setFPS(30);
 		createjs.Ticker.addListener(this);	
 	}	
+	
+	Game.prototype.onClick = function (on)
+	{
+		this.debug ? console.log('Game.onClick') : null;
+		
+		this.playerGroup.onClick();
+	}
 	
 	Game.prototype.toggleDebug = function (on)
 	{		
