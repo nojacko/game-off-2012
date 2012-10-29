@@ -95,9 +95,9 @@
 				var cell = row[x];
 				if (cell == 1) {
 					var block = new createjs.Shape();
-					block.x = x*16;
-					block.y = y*16;
-					block.graphics.beginFill("#FFFFFF").rect(0, 0, 16, 16);
+					block.x = x*this.blockSize;
+					block.y = y*this.blockSize;
+					block.graphics.beginFill("#FFFFFF").rect(0, 0, this.blockSize, this.blockSize);
 					this.game.stage.addChild(block)	
 				}
 			}
@@ -111,18 +111,18 @@
 		
 		var i = 0;
 	
-		var xlines = this.game.canvas.width/16+1;
+		var xlines = this.game.canvas.width/this.blockSize+1;
 		for (var x = 0; x < xlines; x++) {			
 			this.gridLines[i] = new createjs.Shape();
-			this.gridLines[i].x = x*16;
+			this.gridLines[i].x = x*this.blockSize;
 			this.gridLines[i].graphics.beginFill("#333333").rect(0, 0, 1, this.game.canvas.height);
 			this.game.stage.addChild(this.gridLines[i]);
 			i++;
 		}
-		var ylines = this.game.canvas.height/16+1;
+		var ylines = this.game.canvas.height/this.blockSize+1;
 		for (var y = 0; y < ylines; y++) {
 			this.gridLines[i] = new createjs.Shape();
-			this.gridLines[i].y = y*16;
+			this.gridLines[i].y = y*this.blockSize;
 			this.gridLines[i].graphics.beginFill("#333333").rect(0, 0, this.game.canvas.width, 1);
 			this.game.stage.addChild(this.gridLines[i]);
 			i++;
