@@ -41,9 +41,15 @@
 	{
 		this.debug ? console.log('Game.onClick') : null;
 		
-		if (this.activePlayer !== null) {
-			var block = this.game.map.coordsToBlock(this.game.stage.mouseX, this.game.stage.mouseY)
-			this.activePlayer.moveTo(block);
+		if (this.activePlayer !== null) {		
+			var path = this.game.map.path(
+				this.game.map.coordsToBlock(this.activePlayer.x, this.activePlayer.y), 
+				this.game.map.coordsToBlock(this.game.stage.mouseX, this.game.stage.mouseY)
+			);
+			
+			for (var i in path) {
+				this.activePlayer.moveTo(path[i]);
+			}
 		}
 	}
 	

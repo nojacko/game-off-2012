@@ -31,7 +31,11 @@
 	Player.prototype.tick = function () 
 	{
 		if (this.moveTarget === null && this.moveQueue.length > 0) {
-			this.moveTarget = this.moveQueue.shift();
+			var block = this.moveQueue.shift();
+			this.moveTarget = this.game.map.coordsToBlock (
+				(block.y*this.game.map.blockSize)+(this.game.map.blockSize/2),
+				(block.x*this.game.map.blockSize)+(this.game.map.blockSize/2)
+			);
 		}
 		
 		if (this.moveTarget !== null) {	

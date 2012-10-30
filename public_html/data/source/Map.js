@@ -12,6 +12,7 @@
 	Map.prototype.name 		= null;
 	Map.prototype.assets 	= null;
 	Map.prototype.grid 		= null;
+	Map.prototype.graph		= null;
 	
 	Map.prototype.gridLines	= [];
 
@@ -83,6 +84,9 @@
 		} else {
 			this.onCompleteAssets(); 
 		}
+		
+		// Create astar graph
+		this.graph = new Graph(this.grid);
 	}
 		
 	Map.prototype.onCompleteAssets = function (event) 
@@ -147,6 +151,15 @@
 			this.game.stage.removeChild(this.gridLines[i]);
 		}
 		this.gridLines = [];
+	}
+	
+	Map.prototype.path = function (from, to) 
+	{
+		return astar.search(
+			this.graph.nodes, 
+			this.graph.nodes[from.y][from.x], 
+			this.graph.nodes[to.y][to.x]
+		);
 	}
 	
 	window.Map = Map;
