@@ -104,7 +104,7 @@
 			var row = this.grid[y];
 			for (var x = 0; x < row.length; x++) {
 				var cell = row[x];
-				if (cell == 1) {
+				if (cell == 0) {
 					var block = new createjs.Shape();
 					block.x = x*this.blockSize;
 					block.y = y*this.blockSize;
