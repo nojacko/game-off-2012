@@ -36,15 +36,18 @@
 		
 		if (this.moveTarget !== null) {	
 			var distance = Math.distanceBetweenObjs(this, this.moveTarget.coords);
-			var moveDistance = this.speed*this.game.frameTime;
+			var moveDistance = this.speed*this.game.frameTime*this.game.map.blockSize;
 			
-			// Finish movement
 			if (distance < moveDistance) {
+				// Finish movement
 				this.x = this.moveTarget.coords.x;
 				this.y = this.moveTarget.coords.y;
 				this.moveTarget = null;
 			} else {
-				// To do: move X and Y based on angle 
+				var angleToTarget = Math.angleBetweenObjs(this, this.moveTarget.coords);
+				var rads = Math.toRadian(angleToTarget)
+				this.x += Math.sin(rads) * moveDistance
+				this.y += -Math.cos(rads) * moveDistance	
 			}			
 		}
 	}
