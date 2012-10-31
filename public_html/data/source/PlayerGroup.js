@@ -42,8 +42,19 @@
 		this.debug ? console.log('Game.onClick') : null;
 		
 		if (this.activePlayer !== null) {
+			var from;
+			
+			// Queue up movements correctly
+			if (this.activePlayer.moveQueue.length > 0) {
+				from = this.activePlayer.moveQueue[this.activePlayer.moveQueue.length-1];
+			} else if (this.activePlayer.moveTarget !== null) {
+				from = this.activePlayer.moveTarget;
+			} else {
+				from = this.game.map.grid.coordsToBlock(this.activePlayer.x, this.activePlayer.y);		
+			}			
+			
 			var path = this.game.map.grid.findPath(
-				this.game.map.grid.coordsToBlock(this.activePlayer.x, this.activePlayer.y), 
+				from, 
 				this.game.map.grid.coordsToBlock(this.game.stage.mouseX, this.game.stage.mouseY)
 			);
 			
