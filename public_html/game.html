@@ -24,6 +24,8 @@
 <body>
 	<header>
 		<h1>Zombie Game <i>(Working Title)</i></h1>
+		<p><strong>Zombie Game is work in progress.</strong></p>
+		<p>More information about the game can be found in my blog post <a href="http://www.nojacko.com/github-game-off">GitHub Game Off</a>.</p>
 	</header>
 	
 	<div id="gameBoarder">
@@ -31,24 +33,26 @@
 		<canvas id="game" width="881" height="593"></canvas>
 	</div>
 	
+	<p>
+		<a href="#gameBoarder" onclick="game.toggleDebug();">Toggle debug</a>. 
+		Restart with debugging 
+		<a href="#gameBoarder" onclick="game = new Game('game', 'test', true);">on</a> or 
+		<a href="#gameBoarder" onclick="game = new Game('game', 'test');">off</a>.
+	</p>
+	
 	<footer>
-		<p>
-			<a href="#gameBoarder" onclick="game.toggleDebug();">Toggle debug</a> 
-			| 
-			Restart with debugging 
-			<a href="#gameBoarder" onclick="game = new Game('game', 'test', true);">on</a> or 
-			<a href="#gameBoarder" onclick="game = new Game('game', 'test');">off</a>.
-		</p>
 		<p>
 			Created by 
 			<a href="http://www.jamesdavidjackson.com">James Jackson</a> for 
-			<a href="http://github.com/blog/1303-github-game-off">GitHub Game Off 2012</a>. 
-			<a href="http://github.com/nojacko/game-off-2012">Source</a>.
+			<a href="http://github.com/blog/1303-github-game-off">GitHub Game Off</a>.
+		</p>
+		<p>
+			<a href="http://github.com/nojacko/game-off-2012">Source code</a> hosted by GitHub.
 		</p>
 		<p>
 			Powered by 
 			<a href="http://www.createjs.com">CreateJS</a>, 
-			<a href="http://github.com/bgrins/javascript-astar">javascript-astar</a>
+			<a href="http://github.com/bgrins/javascript-astar">javascript-astar</a>.
 		</p>
 	</footer>
 	
