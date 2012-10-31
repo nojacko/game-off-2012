@@ -3,6 +3,7 @@
 	function PlayerGroup (game) 
 	{
 		this.game = game;
+		this.players = [];
 		
 		for (var i = 0; i < this.game.map.players.length; i++) {
 			var player = this.game.map.players[i];

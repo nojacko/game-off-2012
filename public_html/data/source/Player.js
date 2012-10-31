@@ -25,7 +25,7 @@
 	Player.prototype.playerGroup 	= null;
 	Player.prototype.colour 		= null;
 	Player.prototype.moveTarget		= null;
-	Player.prototype.moveQueue		= null;
+	Player.prototype.moveQueue		= [];
 	Player.prototype.speed			= 5; // Blocks per second
 	
 	// Methods

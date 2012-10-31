@@ -10,7 +10,7 @@
 	// Properties
 	Grid.prototype.map			= null;
 	Grid.prototype.grid			= null;
-	Grid.prototype.graph			= null;
+	Grid.prototype.graph		= null;
 	
 	// Methods		
 	Grid.prototype.findPath = function (from, to) 

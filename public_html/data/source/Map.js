@@ -4,6 +4,7 @@
 	{
 		this.game = game;
 		this.source = source;
+		this.gridLines = [];
 	}
 	
 	// Properties
