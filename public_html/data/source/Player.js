@@ -55,7 +55,6 @@
 	Player.prototype.moveTo = function (block) 
 	{		
 		this.moveQueue.push(block);
-		console.log(block)
 	}	
 	
 	Player.prototype.setActive = function (active)
