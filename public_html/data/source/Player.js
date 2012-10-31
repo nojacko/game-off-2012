@@ -8,7 +8,7 @@
   
 		// Shape
 		this.x = x*this.game.map.blockSize;
-		this.y = y*this.game.map.blockSize;;
+		this.y = y*this.game.map.blockSize;
 		this.snapToPixel = true;
 		
 		// Player
@@ -31,24 +31,20 @@
 	Player.prototype.tick = function () 
 	{
 		if (this.moveTarget === null && this.moveQueue.length > 0) {
-			var block = this.moveQueue.shift();
-			this.moveTarget = this.game.map.coordsToBlock (
-				(block.y*this.game.map.blockSize)+(this.game.map.blockSize/2),
-				(block.x*this.game.map.blockSize)+(this.game.map.blockSize/2)
-			);
+			this.moveTarget = this.moveQueue.shift();
 		}
 		
 		if (this.moveTarget !== null) {	
-			var distance = Math.distanceBetweenObjs(this, this.moveTarget.coords);
+			var distance = Math.distanceBetweenObjs(this, this.moveTarget);
 			var moveDistance = this.speed*this.game.frameTime*this.game.map.blockSize;
 			
 			if (distance < moveDistance) {
 				// Finish movement
-				this.x = this.moveTarget.coords.x;
-				this.y = this.moveTarget.coords.y;
+				this.x = this.moveTarget.x;
+				this.y = this.moveTarget.y;
 				this.moveTarget = null;
 			} else {
-				var angleToTarget = Math.angleBetweenObjs(this, this.moveTarget.coords);
+				var angleToTarget = Math.angleBetweenObjs(this, this.moveTarget);
 				var rads = Math.toRadian(angleToTarget)
 				this.x += Math.sin(rads) * moveDistance
 				this.y += -Math.cos(rads) * moveDistance	
@@ -59,6 +55,7 @@
 	Player.prototype.moveTo = function (block) 
 	{		
 		this.moveQueue.push(block);
+		console.log(block)
 	}	
 	
 	Player.prototype.setActive = function (active)

@@ -17,17 +17,6 @@
 	Map.prototype.gridLines	= [];
 
 	// Methods	
-	Map.prototype.coordsToBlock = function (x, y)
-	{
-		var block = {};
-		block.x = Math.floor(x/this.blockSize);
-		block.y = Math.floor(y/this.blockSize);
-		block.coords = {};
-		block.coords.x = block.x * this.blockSize;
-		block.coords.y = block.y * this.blockSize;
-		return block;
-	}
-	
 	Map.prototype.load = function () 
 	{	
 		// Scope
@@ -85,8 +74,8 @@
 			this.onCompleteAssets(); 
 		}
 		
-		// Create astar graph
-		this.graph = new Graph(this.grid);
+		// Create grid
+		this.grid = new Grid(this, this.grid);
 	}
 		
 	Map.prototype.onCompleteAssets = function (event) 
@@ -151,15 +140,6 @@
 			this.game.stage.removeChild(this.gridLines[i]);
 		}
 		this.gridLines = [];
-	}
-	
-	Map.prototype.path = function (from, to) 
-	{
-		return astar.search(
-			this.graph.nodes, 
-			this.graph.nodes[from.y][from.x], 
-			this.graph.nodes[to.y][to.x]
-		);
 	}
 	
 	window.Map = Map;
