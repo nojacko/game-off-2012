@@ -58,3 +58,30 @@ Math.roundToDp = function (num, dp)
 {
 	return Math.round(num*Math.pow(10,dp))/Math.pow(10,dp);
 }
+
+/**
+* Array functions
+* Use Object.defineProperty to prevent enumerating issues.
+*/
+
+
+/**
+* Shuffle items in arrange.
+* http://stackoverflow.com/questions/2450954/how-to-randomize-a-javascript-array
+*/
+if (!Array.prototype.prototype) {
+	Object.defineProperty(Array.prototype, 'shuffle', {
+		value: function() { 
+			var i = this.length, j, tempi, tempj;
+			if ( i == 0 ) { return false; }
+			while ( --i ) {
+				j       = Math.floor( Math.random() * ( i + 1 ) );
+				tempi   = this[i];
+				tempj   = this[j];
+				this[i] = tempj;
+				this[j] = tempi;
+			}
+			return this;
+		}
+	});
+}
