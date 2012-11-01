@@ -64,9 +64,27 @@
 				this.activePlayer.moveTo(block);
 			}
 		}
+	}	
+
+	PlayerGroup.prototype.playerAtBlock = function (block, self)
+	{
+		var self = typeof self === 'undefined' ? null : self;
+		
+		for (var i in this.players) {
+			var player = this.players[i];
+			if (player !== self) {
+				if ( 
+					player.currentBlock !== null && 
+					player.currentBlock.col === block.col && 
+					player.currentBlock.row === block.row 
+				) {
+					return player;
+				}
+			}
+		}
+		return null;
 	}
-	
-	
+
 	PlayerGroup.prototype.tick = function ()
 	{
 		for (var i in this.players) {
