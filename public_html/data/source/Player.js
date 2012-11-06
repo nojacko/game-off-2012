@@ -32,9 +32,9 @@
 	// Methods
 	Player.prototype.tick = function () 
 	{
-		if (this.moveTarget === null && this.moveQueue.length > 0) {
+		if (this.moveTarget === null && this.moveQueue.length > 0 && this.moveQueue[0].length > 0) {
 			// Check target isn't occupied 
-			var target = this.moveQueue[0];
+			var target = this.moveQueue[0].first();
 			var occupied = this.playerGroup.playerAtBlock(target, this) !== null;
 		
 			// if occupied, attempt to move around target
@@ -88,22 +88,22 @@
 					}						
 				}
 				
-				if (pathOK) {
-					this.moveQueue.shift(); // Remove occupied block
-					
+				// Remove from queue
+				this.moveQueue[0].shift();
+				
+				if (pathOK) { 					
 					// Add additional to path to queue
 					while (blocksToCheck[i].length > 0) {
-						this.moveQueue.unshift(blocksToCheck[i].pop());
+						this.moveQueue[0].unshift(blocksToCheck[i].pop());
 					}
-					this.moveTarget = this.moveQueue.shift();
+					this.moveTarget = this.moveQueue[0].shift();
 					
 				} else {
 					// Stop moving
 					this.moveTarget = null;
-					this.moveQueue = [];
 				}
 			} else {
-				this.moveTarget = this.moveQueue.shift();
+				this.moveTarget = this.moveQueue[0].shift();
 			}
 		}
 		
@@ -123,14 +123,44 @@
 				this.y += -Math.cos(rads) * moveDistance	
 			}	
 			
+			// Remove Empty Array
+			if (this.moveQueue.length > 0 && this.moveQueue[0].last() === null) {
+				this.moveQueue.shift();
+			}
 		}
+		
+		
 		this.currentBlock = this.game.map.grid.coordsToBlock(this.x, this.y);
+	}
+	
+	Player.prototype.addPath = function (path) 
+	{
+		if (path.length == 0) {
+			return; 
+		}
+		
+		var route = [];
+			
+		for (var i in path) {
+			route[i] = this.game.map.grid.gridToBlock(path[i].x, path[i].y);
+		}
+		this.moveQueue.push(route);
 	}
 	
 	Player.prototype.moveTo = function (block) 
 	{		
 		this.moveQueue.push(block);
 	}	
+	
+	Player.prototype.getFinalDestination = function () 
+	{	
+		if (this.moveQueue.last() !== null && this.moveQueue.last().last() !== null) {
+			return this.moveQueue.last().last();
+		} else if (this.moveTarget !== null) {
+			return this.moveTarget;
+		}
+		return this.currentBlock;
+	}
 	
 	Player.prototype.setActive = function (active)
 	{
