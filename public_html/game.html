@@ -18,6 +18,7 @@
 	
 	<!-- Core Game Files -->
 	<script type="text/javascript" src="data/source/Game.js"></script>
+	<script type="text/javascript" src="data/source/Level.js"></script>
 	<script type="text/javascript" src="data/source/Map.js"></script>
 	<script type="text/javascript" src="data/source/Grid.js"></script>
 	<script type="text/javascript" src="data/source/PlayerGroup.js"></script>
@@ -41,8 +42,8 @@
 	<p>
 		<a href="#gameBoarder" onclick="game.toggleDebug();">Toggle debug</a>. 
 		Restart with debugging 
-		<a href="#gameBoarder" onclick="game = new Game('game', 'test', true);">on</a> or 
-		<a href="#gameBoarder" onclick="game = new Game('game', 'test');">off</a>.
+		<a href="#gameBoarder" onclick="game = new Game('game', true); game.loadLevel('test');">on</a> or 
+		<a href="#gameBoarder" onclick="game = new Game('game'); game.loadLevel('test');">off</a>.
 	</p>
 	
 	<footer>
@@ -62,7 +63,8 @@
 	</footer>
 	
 	<script>
-	var game = new Game('game', 'test');
+	var game = new Game('game');
+	game.loadLevel('test');
 	</script>
 
 </body>

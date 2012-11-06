@@ -1,102 +1,31 @@
 (function(window) {
 
-	function Map (game, source) 
+	function Map (game, mapdata) 
 	{
 		this.game = game;
-		this.source = source;
 		this.gridLines = [];
+		
+		for (var index in mapdata) {
+			this[index] = mapdata[index];
+		}
+		
+		this.grid = new Grid(this, this.layout)
 	}
 	
 	// Properties
 	Map.prototype.game 		= null;
-	Map.prototype.source 	= null;
-	Map.prototype.name 		= null;
 	Map.prototype.assets 	= null;
-	Map.prototype.grid 		= null;
+	Map.prototype.layout 	= null;
 	Map.prototype.graph		= null;
 	
 	Map.prototype.gridLines	= [];
 
 	// Methods	
-	Map.prototype.load = function () 
-	{	
-		// Scope
-		var game = this.game;
-		
-		// Load Assets
-		this.preload = new createjs.PreloadJS();
-		this.preload.onProgress = function (event) { game.map.onProgress(event); }
-		this.preload.onFileLoad = function (event) { game.map.onFileLoad(event); }
-		this.preload.onComplete = function (event) { game.map.onCompleteMap(event); }
-		this.preload.onError = function (event) { console.log('error'); }
-        this.preload.loadManifest(
-			[
-				{ 
-					id: 'map', 
-					src: 'data/levels/' + this.source + '.json',
-					type: createjs.PreloadJS.JSON
-				}
-			]
-		);
-	}
-
-	Map.prototype.onProgress = function (event) 
-	{
-		this.game.debug ? console.log('Map.onProgress: ' + event.loaded + '/' + event.total) : null;
-	}
-	
-	Map.prototype.onFileLoad = function (event) 
-	{
-		this.game.debug ? console.log('Map.onFileLoad: { id: ' + event.id + ', src: ' + event.src +' }') : null;
-	}
-	
-	Map.prototype.onCompleteMap = function (event) 
-	{
-		this.game.debug ? console.log('Map.onCompleteMap') : null;
-		
-		// Scope
-		var game = this.game;		
-		
-		// Copy data from map file
-		this.game.debug ? console.log('- Applying settings...') : null;
-		var data = JSON.parse(this.preload.getResult('map').result);
-		for (var index in data) {
-			this[index] = data[index];
-		}
-		
-		this.game.debug ? console.log('- Map name: ' + this.name) : null;
-		
-		// Load Assets
-		this.game.debug ? console.log('- Loading assets...') : null;
-		if (this.assets.length > 0) {
-			this.preload.onComplete = function (event) { game.map.onCompleteAssets(event); }
-			this.preload.loadManifest(this.assets);
-		} else {
-			this.onCompleteAssets(); 
-		}		
-	}
-		
-	Map.prototype.onCompleteAssets = function (event) 
-	{
-		this.game.debug ? console.log('Map.onCompleteAssets') : null;
-		
-		if (typeof event === 'undefined') {
-			this.game.debug ? console.log('- No assets loaded') : null;	
-		}
-		
-		// Create grid
-		this.grid = new Grid(this, this.grid);
-		
-		// Pass back to game
-		this.game.onMapLoad();		
-	}
-	
-	
-	Map.prototype.drawMap = function () 
+	Map.prototype.draw = function () 
 	{	
 		// Draw map
-		for (var y = 0; y < this.grid.grid.length; y++) {
-			var row = this.grid.grid[y];
+		for (var y = 0; y < this.layout.length; y++) {
+			var row = this.layout[y];
 			for (var x = 0; x < row.length; x++) {
 				var cell = row[x];
 				if (cell == 0) {

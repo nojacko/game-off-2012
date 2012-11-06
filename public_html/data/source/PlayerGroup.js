@@ -1,12 +1,12 @@
 (function(window) {
 
-	function PlayerGroup (game) 
+	function PlayerGroup (game, players) 
 	{
 		this.game = game;
 		this.players = [];
 		
-		for (var i = 0; i < this.game.map.players.length; i++) {
-			var player = this.game.map.players[i];
+		for (var i = 0; i < players.length; i++) {
+			var player = players[i];
 			this.players[i] = new Player(game, this, player.x, player.y);
 			this.game.stage.addChild(this.players[i]);
 		}
@@ -43,9 +43,9 @@
 		this.debug ? console.log('Game.onClick') : null;
 		
 		if (this.activePlayer !== null) {
-			var path = this.game.map.grid.findPath(
+			var path = this.game.level.map.grid.findPath(
 				this.activePlayer.getFinalDestination(), 
-				this.game.map.grid.coordsToBlock(this.game.stage.mouseX, this.game.stage.mouseY)
+				this.game.level.map.grid.coordsToBlock(this.game.stage.mouseX, this.game.stage.mouseY)
 			);
 			this.activePlayer.addPath(path);
 		}

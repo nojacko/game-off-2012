@@ -1,6 +1,6 @@
 (function(window) {
 
-	function Game (id, map, debug) 
+	function Game (id, debug) 
 	{	
 		this.debug = typeof debug == 'boolean' ? debug : false;
 		
@@ -8,25 +8,28 @@
 		this.canvas = document.getElementById(id);
 		this.stage = new createjs.Stage(this.canvas);
 		this.stage.enableMouseOver(10);
-		this.stage.snapToPixelEnabled = true;
-		
-		this.map = new Map(this, map);
-		this.map.load();		
+		this.stage.snapToPixelEnabled = true;	
 	}
 		
 	// Properties
 	Game.prototype.canvas 		= null;
 	Game.prototype.stage 		= null;
 	
-	Game.prototype.map 			= null;
+	Game.prototype.level		= null;
 	
 	Game.prototype.frameTime	= 0.01;
 	
-	Game.prototype.playerGroup	= null;
 	Game.prototype.fps 			= null;
 	
 	// Methods	
-	Game.prototype.onMapLoad = function () 
+	Game.prototype.loadLevel = function (level) 
+	{
+		this.debug ? console.log('Game.loadLevel') : null;
+		
+		this.level = new Level(this, level);
+	}
+	
+	Game.prototype.levelLoaded = function () 
 	{
 		this.debug ? console.log('Game.onMapLoad') : null;
 		
@@ -34,8 +37,8 @@
 		var game = this;
 		
 		// Size Canvas
-		this.canvas.width = this.map.xBlocks*this.map.blockSize + 1;
-		this.canvas.height = this.map.yBlocks*this.map.blockSize + 1;
+		this.canvas.width = this.level.map.xBlocks*this.level.map.blockSize + 1;
+		this.canvas.height = this.level.map.yBlocks*this.level.map.blockSize + 1;
 		
 		// onClick events
 		this.canvas.onclick = function () { game.onClick(); }
@@ -43,11 +46,8 @@
 		// Debugging Visuals
 		this.toggleDebug(this.debug); 
 		
-		// Set Up
-		this.playerGroup = new PlayerGroup(this);
-		
 		// Draw
-		this.map.drawMap();
+		this.level.map.draw();
 		
 		// Render
 		this.stage.update();
@@ -62,7 +62,7 @@
 	{
 		this.debug ? console.log('Game.onClick') : null;
 		
-		this.playerGroup.onClick();
+		this.level.playerGroup.onClick();
 	}
 	
 	Game.prototype.toggleDebug = function (on)
@@ -76,10 +76,10 @@
 		// Always remove first		
 		this.stage.removeChild(this.fps);
 		this.fps = null;		
-		this.map.removeGrid();
+		this.level.map.removeGrid();
 		
 		if (this.debug) {
-			this.map.drawGrid();
+			this.level.map.drawGrid();
 			this.drawFps();
 		} 		
 	}
@@ -107,7 +107,7 @@
 		}
 		
 		// Players
-		this.playerGroup.tick();
+		this.level.playerGroup.tick();
 		
 		// Render
 		this.stage.update();
