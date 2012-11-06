@@ -33,7 +33,7 @@
 			[
 				{ 
 					id: 'map', 
-					src: 'data/maps/' + this.source + '.json',
+					src: 'data/levels/' + this.source + '.json',
 					type: createjs.PreloadJS.JSON
 				}
 			]
