@@ -73,10 +73,7 @@
 			this.preload.loadManifest(this.assets);
 		} else {
 			this.onCompleteAssets(); 
-		}
-		
-		// Create grid
-		this.grid = new Grid(this, this.grid);
+		}		
 	}
 		
 	Map.prototype.onCompleteAssets = function (event) 
@@ -87,6 +84,10 @@
 			this.game.debug ? console.log('- No assets loaded') : null;	
 		}
 		
+		// Create grid
+		this.grid = new Grid(this, this.grid);
+		
+		// Pass back to game
 		this.game.onMapLoad();		
 	}
 	
@@ -94,8 +95,8 @@
 	Map.prototype.drawMap = function () 
 	{	
 		// Draw map
-		for (var y = 0; y < this.grid.length; y++) {
-			var row = this.grid[y];
+		for (var y = 0; y < this.grid.grid.length; y++) {
+			var row = this.grid.grid[y];
 			for (var x = 0; x < row.length; x++) {
 				var cell = row[x];
 				if (cell == 0) {
