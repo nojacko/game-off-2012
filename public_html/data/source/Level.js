@@ -1,8 +1,7 @@
 (function(window) {
 
-	function Level (game, id) 
+	function Level (id) 
 	{
-		this.game = game;
 		this.id = id;
 		
 		this.objects = [];
@@ -11,7 +10,6 @@
 	}
 	
 	// Properties
-	Level.prototype.game 	= null;
 	Level.prototype.id 		= '';
 	Level.prototype.preload	= null;
 	Level.prototype.objects	= [];
@@ -21,7 +19,7 @@
 	// Methods		
 	Level.prototype.loadLevelFile = function () 
 	{	
-		this.game.debug ? console.log('Level.loadLevelFile') : null;
+		GAME.debug ? console.log('Level.loadLevelFile') : null;
 		
 		// Scope
 		var level = this;
@@ -45,32 +43,32 @@
 	
 	Level.prototype.loadProgress = function (event) 
 	{
-		this.game.debug ? console.log('Level.loadProgress: ' + event.loaded + '/' + event.total) : null;
+		GAME.debug ? console.log('Level.loadProgress: ' + event.loaded + '/' + event.total) : null;
 	}
 	
 	Level.prototype.loadFileLoad = function (event) 
 	{
-		this.game.debug ? console.log('Level.loadFileLoad: { id: ' + event.id + ', src: ' + event.src +' }') : null;
+		GAME.debug ? console.log('Level.loadFileLoad: { id: ' + event.id + ', src: ' + event.src +' }') : null;
 	}
 	
 	Level.prototype.loadAssets = function (event) 
 	{
-		this.game.debug ? console.log('Level.loadAssets') : null;
+		GAME.debug ? console.log('Level.loadAssets') : null;
 		
 		// Scope
 		var level = this;		
 		
 		// Copy data from level file
-		this.game.debug ? console.log('- Applying settings...') : null;
+		GAME.debug ? console.log('- Applying settings...') : null;
 		var data = JSON.parse(this.preload.getResult('level').result);
 		for (var index in data) {
 			this[index] = data[index];
 		}
 		
-		this.game.debug ? console.log('- Map name: ' + this.name) : null;
+		GAME.debug ? console.log('- Map name: ' + this.name) : null;
 		
 		// Load Assets
-		this.game.debug ? console.log('- Loading assets...') : null;
+		GAME.debug ? console.log('- Loading assets...') : null;
 		if (this.assets.length > 0) {
 			this.preload.onComplete = function (event) { level.levelAssetsLoaded(event); }
 			this.preload.loadManifest(this.assets);
@@ -81,17 +79,17 @@
 	
 	Level.prototype.levelAssetsLoaded = function (event) 
 	{
-		this.game.debug ? console.log('Map.onCompleteAssets') : null;
+		GAME.debug ? console.log('Map.onCompleteAssets') : null;
 		
 		if (typeof event === 'undefined') {
-			this.game.debug ? console.log('- No assets loaded') : null;	
+			GAME.debug ? console.log('- No assets loaded') : null;	
 		}
 		
-		this.map = new Map(this.game, this.mapdata);
-		this.playerGroup = new PlayerGroup(this.game, this.players)
+		this.map = new Map(this.mapdata);
+		this.playerGroup = new PlayerGroup(this.players)
 		
 		// Pass back to game
-		this.game.levelLoaded();		
+		GAME.levelLoaded();		
 	}
 	
 	window.Level = Level;

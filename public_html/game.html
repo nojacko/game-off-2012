@@ -42,8 +42,8 @@
 	<p>
 		<a href="#gameBoarder" onclick="game.toggleDebug();">Toggle debug</a>. 
 		Restart with debugging 
-		<a href="#gameBoarder" onclick="game = new Game('game', true); game.loadLevel('test');">on</a> or 
-		<a href="#gameBoarder" onclick="game = new Game('game'); game.loadLevel('test');">off</a>.
+		<a href="#gameBoarder" onclick="GAME.start('game', true); GAME.loadLevel('test');">on</a> or 
+		<a href="#gameBoarder" onclick="GAME.start('game'); GAME.loadLevel('test');">off</a>.
 	</p>
 	
 	<footer>
@@ -63,8 +63,8 @@
 	</footer>
 	
 	<script>
-	var game = new Game('game');
-	game.loadLevel('test');
+	GAME.start('game');
+	GAME.loadLevel('test');
 	</script>
 
 </body>

@@ -1,15 +1,14 @@
 (function(window) {
 
-	function Player (game, playerGroup, x, y) {
+	function Player (playerGroup, x, y) {
 		this.initialize();	
 		
-		this.game = game; 
 		this.playerGroup = playerGroup; 
 		this.moveQueue = [];
   
 		// Shape
-		this.x = x*this.game.level.map.blockSize;
-		this.y = y*this.game.level.map.blockSize;
+		this.x = x*GAME.level.map.blockSize;
+		this.y = y*GAME.level.map.blockSize;
 		this.snapToPixel = true;
 		
 		// Player
@@ -21,7 +20,6 @@
 	Player.prototype = new createjs.Shape();
 	
 	// Properties
-	Player.prototype.game			= null;
 	Player.prototype.playerGroup 	= null;
 	Player.prototype.colour 		= null;
 	Player.prototype.moveTarget		= null;
@@ -47,14 +45,14 @@
 					col = (target.col > this.currentBlock.col) ? +1 : -1;
 					row = this.currentBlock.row; 
 					blocksToCheck[0] = [
-						this.game.level.map.grid.gridToBlock(row-1, this.currentBlock.col), 
-						this.game.level.map.grid.gridToBlock(row-1, this.currentBlock.col+col),
-						this.game.level.map.grid.gridToBlock(row-1, this.currentBlock.col+col*2)
+						GAME.level.map.grid.gridToBlock(row-1, this.currentBlock.col), 
+						GAME.level.map.grid.gridToBlock(row-1, this.currentBlock.col+col),
+						GAME.level.map.grid.gridToBlock(row-1, this.currentBlock.col+col*2)
 					];
 					blocksToCheck[1] = [
-						this.game.level.map.grid.gridToBlock(row+1, this.currentBlock.col), 
-						this.game.level.map.grid.gridToBlock(row+1, this.currentBlock.col+col),
-						this.game.level.map.grid.gridToBlock(row+1, this.currentBlock.col+col*2) 
+						GAME.level.map.grid.gridToBlock(row+1, this.currentBlock.col), 
+						GAME.level.map.grid.gridToBlock(row+1, this.currentBlock.col+col),
+						GAME.level.map.grid.gridToBlock(row+1, this.currentBlock.col+col*2) 
 					];
 				}
 				
@@ -62,14 +60,14 @@
 					col = this.currentBlock.col; 
 					row = (target.row > this.currentBlock.row) ? +1 : -1;
 					blocksToCheck[0] = [
-						this.game.level.map.grid.gridToBlock(this.currentBlock.row, col-1), 
-						this.game.level.map.grid.gridToBlock(this.currentBlock.row+row, col-1),
-						this.game.level.map.grid.gridToBlock(this.currentBlock.row+row*2, col-1)
+						GAME.level.map.grid.gridToBlock(this.currentBlock.row, col-1), 
+						GAME.level.map.grid.gridToBlock(this.currentBlock.row+row, col-1),
+						GAME.level.map.grid.gridToBlock(this.currentBlock.row+row*2, col-1)
 					];
 					blocksToCheck[1] = [
-						this.game.level.map.grid.gridToBlock(this.currentBlock.row, col+1), 
-						this.game.level.map.grid.gridToBlock(this.currentBlock.row+row, col+1),
-						this.game.level.map.grid.gridToBlock(this.currentBlock.row+row*2, col+1) 
+						GAME.level.map.grid.gridToBlock(this.currentBlock.row, col+1), 
+						GAME.level.map.grid.gridToBlock(this.currentBlock.row+row, col+1),
+						GAME.level.map.grid.gridToBlock(this.currentBlock.row+row*2, col+1) 
 					];
 				}
 				
@@ -109,7 +107,7 @@
 		
 		if (this.moveTarget !== null) {	
 			var distance = Math.distanceBetweenObjs(this, this.moveTarget);
-			var moveDistance = this.speed*this.game.frameTime*this.game.level.map.blockSize;
+			var moveDistance = this.speed*GAME.frameTime*GAME.level.map.blockSize;
 			
 			if (distance < moveDistance) {
 				// Finish movement
@@ -130,7 +128,7 @@
 		}
 		
 		
-		this.currentBlock = this.game.level.map.grid.coordsToBlock(this.x, this.y);
+		this.currentBlock = GAME.level.map.grid.coordsToBlock(this.x, this.y);
 	}
 	
 	Player.prototype.addPath = function (path) 
@@ -142,7 +140,7 @@
 		var route = [];
 			
 		for (var i in path) {
-			route[i] = this.game.level.map.grid.gridToBlock(path[i].x, path[i].y);
+			route[i] = GAME.level.map.grid.gridToBlock(path[i].x, path[i].y);
 		}
 		this.moveQueue.push(route);
 	}
@@ -178,9 +176,9 @@
 	{ 
 		this.graphics.clear();
 		this.graphics.beginFill(this.colour).drawCircle(
-			this.game.level.map.blockSize/2, 
-			this.game.level.map.blockSize/2, 
-			this.game.level.map.blockSize/3
+			GAME.level.map.blockSize/2, 
+			GAME.level.map.blockSize/2, 
+			GAME.level.map.blockSize/3
 		);
 	}
 	
