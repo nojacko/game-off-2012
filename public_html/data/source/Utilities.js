@@ -59,6 +59,11 @@ Math.roundToDp = function (num, dp)
 	return Math.round(num*Math.pow(10,dp))/Math.pow(10,dp);
 }
 
+function microtime () {
+  return new Date().getTime() / 1000;   
+}
+
+
 /**
 * Array functions
 * Use Object.defineProperty to prevent enumerating issues.
