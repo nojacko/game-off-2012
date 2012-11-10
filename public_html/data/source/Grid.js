@@ -4,7 +4,6 @@
 	{
 		this.map = map;
 		this.layout = grid;		
-		this.graph = new Graph(this.layout);
 		
 		this.dijkstras = new Dijkstras();
 		this.dijkstras.setGraph(this.gridToGraph(this.layout));
@@ -13,9 +12,24 @@
 	// Properties
 	Grid.prototype.map			= null;
 	Grid.prototype.grid			= null;
-	Grid.prototype.graph		= null;
+	Grid.prototype.dijkstras		= null;
 	
 	// Methods	
+	Grid.prototype.shortestPath = function (from, to) {
+		GAME.debug ? console.log('Grid.shortestPath') : null;	
+		var time = microtime();
+		
+		var nodes = this.dijkstras.getPath(from, to);		
+		
+		GAME.debug ? console.log('- route: ' + (microtime()-time) + 'seconds') : null;		
+	
+		var path = [];		
+		for (var i in nodes) {
+			path[path.length] = this.nodeToBlock(nodes[i]);
+		}
+		return path;
+	} 
+	
 	Grid.prototype.gridToGraph = function (grid) 
 	{
 		// List of offset to check when creating vertices [x, y]
@@ -26,7 +40,7 @@
 		];
 		
 		var graph = [];
-		
+		var i =0;
 		for (var y = 0; y < grid.length; y++) {
 			var row = grid[y];
 			for (var x = 0; x < row.length; x++) {
@@ -56,20 +70,11 @@
 						}
 					}
 				}
-				
+				i++
 				graph[graph.length] = [nodeName, vertices];
 			}
-		}		
+		}
 		return graph;
-	}
-		
-	Grid.prototype.findPath = function (from, to) 
-	{
-		return astar.search(
-			this.graph.nodes, 
-			this.graph.nodes[from.row][from.col], 
-			this.graph.nodes[to.row][to.col]
-		);
 	}
 	
 	Grid.prototype.coordsToBlock = function (x, y)
@@ -79,6 +84,7 @@
 		block.col	 	= Math.floor(x/this.map.blockSize);
 		block.x 		= block.col * this.map.blockSize;
 		block.y 		= block.row * this.map.blockSize;
+		block.node		= block.col + 'x' + block.row;
 		return block;
 	}
 	
@@ -89,7 +95,14 @@
 		block.col	 	= col;
 		block.x 		= block.col * this.map.blockSize;
 		block.y 		= block.row * this.map.blockSize;
+		block.node		= block.col + 'x' + block.row;
 		return block;
+	}	
+	
+	Grid.prototype.nodeToBlock = function (node)
+	{
+		var xy = node.split('x');
+		return this.gridToBlock(xy[1], xy[0]);
 	}	
 	
 	window.Grid = Grid;

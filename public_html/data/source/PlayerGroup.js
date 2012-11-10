@@ -41,10 +41,10 @@
 		this.debug ? console.log('Game.onClick') : null;
 		
 		if (this.activePlayer !== null) {
-			var path = GAME.level.map.grid.findPath(
-				this.activePlayer.getFinalDestination(), 
-				GAME.level.map.grid.coordsToBlock(GAME.stage.mouseX, GAME.stage.mouseY)
-			);
+			var fromBlock = this.activePlayer.getFinalDestination();
+			var toBlock = GAME.level.map.grid.coordsToBlock(GAME.stage.mouseX, GAME.stage.mouseY);
+			
+			var path = GAME.level.map.grid.shortestPath(fromBlock.node, toBlock.node);
 			this.activePlayer.addPath(path);
 		}
 	}	

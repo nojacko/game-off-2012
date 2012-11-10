@@ -133,16 +133,9 @@
 	
 	Player.prototype.addPath = function (path) 
 	{
-		if (path.length == 0) {
-			return; 
+		if (path.length > 0) {
+			this.moveQueue.push(path);
 		}
-		
-		var route = [];
-			
-		for (var i in path) {
-			route[i] = GAME.level.map.grid.gridToBlock(path[i].x, path[i].y);
-		}
-		this.moveQueue.push(route);
 	}
 	
 	Player.prototype.moveTo = function (block) 
