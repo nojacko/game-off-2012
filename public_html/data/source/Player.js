@@ -32,76 +32,32 @@
 	{
 		if (this.moveTarget === null && this.moveQueue.length > 0 && this.moveQueue[0].length > 0) {
 			// Check target isn't occupied 
-			var target = this.moveQueue[0].first();
-			var occupied = this.playerGroup.playerAtBlock(target, this) !== null;
+			this.moveTarget = this.moveQueue[0].shift();
 		
 			// if occupied, attempt to move around target
-			if (occupied) {
-				// Test alternative routes
-				var col, row = 0;
-				var blocksToCheck = [];
+			if (this.playerGroup.playerAtBlock(this.moveTarget, this) !== null) {				
+				this.removeOccupiedNodesFromPath();
 				
-				if (this.currentBlock.row == target.row) {
-					col = (target.col > this.currentBlock.col) ? +1 : -1;
-					row = this.currentBlock.row; 
-					blocksToCheck[0] = [
-						GAME.level.map.grid.gridToBlock(row-1, this.currentBlock.col), 
-						GAME.level.map.grid.gridToBlock(row-1, this.currentBlock.col+col),
-						GAME.level.map.grid.gridToBlock(row-1, this.currentBlock.col+col*2)
-					];
-					blocksToCheck[1] = [
-						GAME.level.map.grid.gridToBlock(row+1, this.currentBlock.col), 
-						GAME.level.map.grid.gridToBlock(row+1, this.currentBlock.col+col),
-						GAME.level.map.grid.gridToBlock(row+1, this.currentBlock.col+col*2) 
-					];
-				}
-				
-				if (this.currentBlock.col == target.col) {
-					col = this.currentBlock.col; 
-					row = (target.row > this.currentBlock.row) ? +1 : -1;
-					blocksToCheck[0] = [
-						GAME.level.map.grid.gridToBlock(this.currentBlock.row, col-1), 
-						GAME.level.map.grid.gridToBlock(this.currentBlock.row+row, col-1),
-						GAME.level.map.grid.gridToBlock(this.currentBlock.row+row*2, col-1)
-					];
-					blocksToCheck[1] = [
-						GAME.level.map.grid.gridToBlock(this.currentBlock.row, col+1), 
-						GAME.level.map.grid.gridToBlock(this.currentBlock.row+row, col+1),
-						GAME.level.map.grid.gridToBlock(this.currentBlock.row+row*2, col+1) 
-					];
-				}
-				
-				// Shuffle to prevent always going the same way
-				blocksToCheck.shuffle();
-				
-				// Check Blocks
-				var pathOK = false;
-				for (var i in blocksToCheck) {
-					if (
-						this.playerGroup.playerAtBlock(blocksToCheck[i][0], this) === null &&
-						this.playerGroup.playerAtBlock(blocksToCheck[i][1], this) === null
-					) {
-						pathOK = true;
-						break;
-					}						
-				}
-				
-				// Remove from queue
-				this.moveQueue[0].shift();
-				
-				if (pathOK) { 					
-					// Add additional to path to queue
-					while (blocksToCheck[i].length > 0) {
-						this.moveQueue[0].unshift(blocksToCheck[i].pop());
-					}
-					this.moveTarget = this.moveQueue[0].shift();
-					
-				} else {
+				if (this.moveQueue[0].first() === null) {
 					// Stop moving
 					this.moveTarget = null;
-				}
-			} else {
-				this.moveTarget = this.moveQueue[0].shift();
+				} else {
+					// Reroute
+					GAME.level.map.grid.setObjectsOnGrid(this.playerGroup.players, this);
+					
+					this.moveTarget = this.moveQueue[0].shift();						
+					var path = GAME.level.map.grid.shortestPath(this.currentBlock.node, this.moveTarget.node, true);
+						
+					if (path.length == 0) {
+						// Cannot find path, stop
+						this.moveTarget = null;
+						this.moveQueue = [];
+					} else {
+						// Push new path to start of queue
+						this.moveQueue.unshift(path);
+						this.moveTarget = this.moveQueue[0].shift();
+					}
+				} 
 			}
 		}
 		
@@ -125,10 +81,41 @@
 			if (this.moveQueue.length > 0 && this.moveQueue[0].last() === null) {
 				this.moveQueue.shift();
 			}
+			
+			// Clean deleted values
+			this.moveQueue = _.compact(this.moveQueue); 
 		}
 		
 		
 		this.currentBlock = GAME.level.map.grid.coordsToBlock(this.x, this.y);
+	}
+	
+	Player.prototype.removeOccupiedNodesFromPath = function () 
+	{
+		var foundUnoccupied = false;
+		for (var i in this.moveQueue) {
+			while (this.moveQueue[i].first() !== null) {
+				// Occuppied? 
+				if (this.playerGroup.playerAtBlock(this.moveQueue[i].first()) !== null) {
+					// Yes, remove from queue
+					this.moveQueue[i].shift();
+				} else {
+					// No, finish
+					foundUnoccupied = true;
+					break;
+				}
+			}
+			
+			// Remove empty
+			if (this.moveQueue[i].length == 0) {
+				delete this.moveQueue[i];
+			}
+			
+			// Stop if unoccupied node found
+			if (foundUnoccupied) {
+				break;
+			}
+		}
 	}
 	
 	Player.prototype.addPath = function (path) 

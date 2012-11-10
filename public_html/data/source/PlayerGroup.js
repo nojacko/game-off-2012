@@ -56,11 +56,7 @@
 		for (var i in this.players) {
 			var player = this.players[i];
 			if (player !== self) {
-				if ( 
-					player.currentBlock !== null && 
-					player.currentBlock.col === block.col && 
-					player.currentBlock.row === block.row 
-				) {
+				if (player.currentBlock !== null && player.currentBlock.node === block.node) {
 					return player;
 				}
 			}
