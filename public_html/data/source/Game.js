@@ -42,7 +42,7 @@ var GAME = {
 		
 		// Tick
 		this.frameTime = Math.roundToDp(1/30, 2);
-		createjs.Ticker.setFPS(30);
+		createjs.Ticker.setFPS(60);
 		createjs.Ticker.addListener(this);	
 	}, 
 	onClick: function (on)
