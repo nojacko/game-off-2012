@@ -20,7 +20,7 @@ var GAME = {
 		
 		this.level = new Level(level);
 	},	
-	levelLoaded: function () 
+	start: function () 
 	{
 		this.debug ? console.log('Game.onMapLoad') : null;
 		
@@ -49,7 +49,7 @@ var GAME = {
 	{
 		this.debug ? console.log('Game.onClick') : null;
 		
-		this.level.playerGroup.onClick();
+		this.level.onClick();
 	}, 
 	toggleDebug: function (on)
 	{		
@@ -89,8 +89,8 @@ var GAME = {
 			}
 		}
 		
-		// Players
-		this.level.playerGroup.tick();
+		// Level
+		this.level.tick();
 		
 		// Render
 		this.stage.update();
