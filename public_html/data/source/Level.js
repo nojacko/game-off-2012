@@ -32,6 +32,21 @@
 		this.objects[this.objects.length] = object;
 	}	
 	
+	Level.prototype.objectAtBlock = function (block, self)
+	{
+		var self = typeof self === 'undefined' ? null : self;
+		
+		for (var i in this.objects) {
+			var object = this.objects[i];
+			if (object !== self) {
+				if (object.currentBlock !== null && object.currentBlock.node === block.node) {
+					return object;
+				}
+			}
+		}
+		return null;
+	}
+	
 	Level.prototype.loadLevelFile = function () 
 	{	
 		GAME.debug ? console.log('Level.loadLevelFile') : null;

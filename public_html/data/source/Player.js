@@ -35,7 +35,7 @@
 			this.moveTarget = this.moveQueue[0].shift();
 		
 			// if occupied, attempt to move around target
-			if (this.playerGroup.playerAtBlock(this.moveTarget, this) !== null) {				
+			if (GAME.level.objectAtBlock(this.moveTarget, this) !== null) {				
 				this.removeOccupiedNodesFromPath();
 				
 				if (this.moveQueue[0].first() === null) {
