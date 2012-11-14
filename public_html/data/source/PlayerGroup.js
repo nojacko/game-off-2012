@@ -8,6 +8,7 @@
 			var player = players[i];
 			this.players[i] = new Player(this, player.x, player.y);
 			GAME.stage.addChild(this.players[i]);
+			GAME.level.addObject(this.players[i]);
 		}
 	}
 	

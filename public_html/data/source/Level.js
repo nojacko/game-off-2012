@@ -12,11 +12,26 @@
 	// Properties
 	Level.prototype.id 		= '';
 	Level.prototype.preload	= null;
-	Level.prototype.objects	= [];
 	Level.prototype.map		= null;
-	Level.prototype.playerGroup	= null;
+	Level.prototype.objects	= [];
+	Level.prototype.playerGroup = null;
 
 	// Methods		
+	Level.prototype.tick = function ()
+	{		
+		this.playerGroup.tick();	
+	}
+	
+	Level.prototype.onClick = function ()
+	{		
+		this.playerGroup.onClick();	
+	}
+	
+	Level.prototype.addObject = function (object)
+	{		
+		this.objects[this.objects.length] = object;
+	}	
+	
 	Level.prototype.loadLevelFile = function () 
 	{	
 		GAME.debug ? console.log('Level.loadLevelFile') : null;
@@ -89,7 +104,7 @@
 		this.playerGroup = new PlayerGroup(this.players)
 		
 		// Pass back to game
-		GAME.levelLoaded();		
+		GAME.start();		
 	}
 	
 	window.Level = Level;
