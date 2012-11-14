@@ -3,7 +3,7 @@
 	function Character () {
 		this.initialize();	
 		
-		this.moveQueue = [];
+		this.snapToPixel = true;
 	}
 	
 	Character.prototype = new createjs.Shape();

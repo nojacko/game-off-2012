@@ -9,7 +9,6 @@
 		// Shape
 		this.x = x*GAME.level.map.blockSize;
 		this.y = y*GAME.level.map.blockSize;
-		this.snapToPixel = true;
 		
 		// Player
 		this.colour = '#FFFFFF';
