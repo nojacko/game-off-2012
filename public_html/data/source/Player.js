@@ -125,11 +125,6 @@
 		}
 	}
 	
-	Player.prototype.moveTo = function (block) 
-	{		
-		this.moveQueue.push(block);
-	}	
-	
 	Player.prototype.getFinalDestination = function () 
 	{	
 		if (this.moveQueue.last() !== null && this.moveQueue.last().last() !== null) {
