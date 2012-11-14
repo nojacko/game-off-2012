@@ -4,7 +4,7 @@ var GAME = {
 	level: null,
 	frameTime: 0.01,
 	fps: null, 
-	start : function (id, debug) 
+	init : function (id, debug) 
 	{	
 		this.debug = typeof debug == 'boolean' ? debug : false;
 		
