@@ -43,7 +43,7 @@
 					this.moveTarget = null;
 				} else {
 					// Reroute
-					GAME.level.map.grid.setObjectsOnGrid(this.playerGroup.players, this);
+					GAME.level.updateObjectsOnGrid(this);
 					
 					this.moveTarget = this.moveQueue[0].shift();						
 					var path = GAME.level.map.grid.shortestPath(this.currentBlock.node, this.moveTarget.node, true);
@@ -96,7 +96,7 @@
 		for (var i in this.moveQueue) {
 			while (this.moveQueue[i].first() !== null) {
 				// Occuppied? 
-				if (this.playerGroup.playerAtBlock(this.moveQueue[i].first()) !== null) {
+				if (GAME.level.objectAtBlock(this.moveQueue[i].first(), this) !== null) {	
 					// Yes, remove from queue
 					this.moveQueue[i].shift();
 				} else {

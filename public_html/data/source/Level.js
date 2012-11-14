@@ -32,6 +32,14 @@
 		this.objects[this.objects.length] = object;
 	}	
 	
+	Level.prototype.updateObjectsOnGrid = function (self)
+	{
+		var self = typeof self === 'undefined' ? null : self;
+		
+		this.map.grid.setObjectsOnGrid(this.objects, self);
+	}
+	
+	
 	Level.prototype.objectAtBlock = function (block, self)
 	{
 		var self = typeof self === 'undefined' ? null : self;
