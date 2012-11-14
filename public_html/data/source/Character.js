@@ -25,7 +25,7 @@
 			if (GAME.level.objectAtBlock(this.moveTarget, this) !== null) {				
 				this.removeOccupiedNodesFromPath();
 				
-				if (this.moveQueue[0].first() === null) {
+				if (typeof this.moveQueue[0] === 'undefined' || this.moveQueue[0].first() === null) {
 					// Stop moving
 					this.moveTarget = null;
 				} else {
@@ -103,6 +103,9 @@
 				break;
 			}
 		}
+		
+		// Clean deleted values
+		this.moveQueue = _.compact(this.moveQueue); 
 	}
 	
 	Character.prototype.addPath = function (path) 
