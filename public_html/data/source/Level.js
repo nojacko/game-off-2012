@@ -10,6 +10,11 @@ function Level (id)
 }
 
 // Methods		
+Level.method('draw', function () {	
+	this.map.draw();
+	this.playerGroup.draw();	
+});	
+
 Level.method('tick', function () {		
 	this.playerGroup.tick();	
 });
@@ -106,7 +111,7 @@ Level.method('levelAssetsLoaded', function (event) {
 		GAME.debug ? console.log('- No assets loaded') : null;	
 	}
 	
-	this.map = new Map(this.mapdata);
+	this.map = new Map(this.data);
 	this.playerGroup = new PlayerGroup(this.players)
 	
 	// Pass back to game

@@ -6,10 +6,16 @@ function PlayerGroup (players)
 	for (var i = 0; i < players.length; i++) {
 		var player = players[i];
 		this.players[i] = new Player(this, player.x, player.y);
-		GAME.stage.addChild(this.players[i].shape);
 		GAME.level.addObject(this.players[i]);
 	}
 }
+
+PlayerGroup.method('draw', function(player) {
+	for (var index in this.players) {
+		GAME.stage.removeChild(this.players[index].shape);
+		GAME.stage.addChild(this.players[index].shape);
+	}
+});
 
 PlayerGroup.method('getActive', function(player) {
 	return this.activePlayer;	

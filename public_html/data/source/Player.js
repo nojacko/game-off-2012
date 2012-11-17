@@ -28,7 +28,7 @@ Player.method('render', function () {
 	this.shape.graphics.beginFill(this.colour).drawCircle(
 		GAME.level.map.blockSize/2, 
 		GAME.level.map.blockSize/2, 
-		GAME.level.map.blockSize/3
+		GAME.level.map.blockSize/2
 	);
 });
 

@@ -35,7 +35,7 @@ var GAME = {
 		this.toggleDebug(this.debug); 
 		
 		// Draw
-		this.level.map.draw();
+		this.level.draw();
 		
 		// Render
 		this.stage.update();

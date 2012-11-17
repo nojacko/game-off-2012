@@ -50,7 +50,7 @@ Character.method('tick', function () {
 	
 	if (this.moveTarget !== null) {	
 		var distance = Math.distanceBetweenObjs(this, this.moveTarget);
-		var moveDistance = this.speed*GAME.frameTime*GAME.level.map.blockSize;
+		var moveDistance = (this.speed*GAME.frameTime*GAME.level.map.blockSize)/this.currentBlock.cost;
 		
 		if (distance < moveDistance) {
 			// Finish movement

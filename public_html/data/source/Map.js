@@ -1,15 +1,15 @@
-function Map (mapdata) 
+function Map (data) 
 {
 	this.assets = null;
 	this.layout = null;
 	this.graph = null;
 	this.gridLines = [];
 	
-	for (var index in mapdata) {
-		this[index] = mapdata[index];
+	for (var index in data) {
+		this[index] = data[index];
 	}
 	
-	this.grid = new Grid(this, this.layout)
+	this.grid = new Grid(this, this.layout, this.blockTypes)
 }
 
 Map.method('draw', function () {	
@@ -17,13 +17,13 @@ Map.method('draw', function () {
 	for (var y = 0; y < this.layout.length; y++) {
 		var row = this.layout[y];
 		for (var x = 0; x < row.length; x++) {
-			var cell = row[x];
-			if (cell == 0) {
-				var block = new createjs.Shape();
-				block.x = x*this.blockSize;
-				block.y = y*this.blockSize;
-				block.graphics.beginFill("#FFFFFF").rect(0, 0, this.blockSize, this.blockSize);
-				GAME.stage.addChild(block)	
+			var block = this.grid.gridToBlock(y, x);
+			if (block.colour !== '') {
+				var square = new createjs.Shape();
+				square.x = x*this.blockSize;
+				square.y = y*this.blockSize;
+				square.graphics.beginFill(block.colour).rect(0, 0, this.blockSize, this.blockSize);
+				GAME.stage.addChild(square)	
 			}
 		}
 	}

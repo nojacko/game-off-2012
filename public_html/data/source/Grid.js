@@ -1,12 +1,17 @@
-function Grid (map, grid) 
+function Grid (map, grid, blockTypes) 
 {
 	this.map = map;
 	this.layout = grid;		
+	this.blockTypes = [];
+	this.blocks = [];
+	
+	this.gridToBlocks(blockTypes);
 	
 	this.dijkstras = new Dijkstras();
 	this.dijkstras.setGraph(this.gridToGraph(this.layout));
 	
 	this.dijkstrasWithObjects = new Dijkstras();
+	
 }
 
 Grid.method('shortestPath', function (from, to, withObjects) {
@@ -31,6 +36,22 @@ Grid.method('shortestPath', function (from, to, withObjects) {
 	return path;
 });
 
+Grid.method('gridToBlocks', function (blockTypes) {
+	// Save block data
+	for (var i in blockTypes) {
+		this.blockTypes[blockTypes[i].id] = blockTypes[i];
+	}
+	
+	// Create blocks for each bit of the grid
+	for (var y = 0; y < this.layout.length; y++) {
+		var row = this.layout[y];
+		for (var x = 0; x < row.length; x++) {
+			var id = row[x];			
+			this.blocks[x+'x'+y] = new Block(this.map, y, x, this.blockTypes[id]);
+		}
+	}	
+});
+
 Grid.method('gridToGraph', function (grid) {
 	// List of offset to check when creating vertices [x, y]
 	var offsets = [
@@ -44,13 +65,12 @@ Grid.method('gridToGraph', function (grid) {
 	for (var y = 0; y < grid.length; y++) {
 		var row = grid[y];
 		for (var x = 0; x < row.length; x++) {
-			var cell = row[x];
-			var nodeName = x + 'x' + y;
+			var block = this.blocks[x+'x'+y];
 			
 			// Inaccessible
-			if (cell === 0) {
+			if (!block.accessible()) {
 				continue;
-			}				
+			}
 			
 			// Check neigbours
 			var vertices = [];
@@ -60,18 +80,22 @@ Grid.method('gridToGraph', function (grid) {
 				
 				if (typeof grid[yOffset] !== 'undefined') {	
 					if (typeof grid[yOffset][xOffset] !== 'undefined') {	
-						var targetName = xOffset + 'x' + yOffset;
+						var target = this.blocks[xOffset+'x'+yOffset];
 						
-						// Add vertex
-						vertices[vertices.length] = [
-							targetName, 
-							Math.distance2D(x, y, xOffset, yOffset)
-						]; 
+						if (block.canLinkTo(target)) {		
+							var distance = Math.distance2D(x, y, xOffset, yOffset);
+							var avgCost = (block.cost+target.cost)/2;
+							// Add vertex
+							vertices[vertices.length] = [
+								target.node, 
+								avgCost*distance
+							]; 
+						}
 					}
 				}
 			}
 			i++
-			graph[graph.length] = [nodeName, vertices];
+			graph[graph.length] = [block.node, vertices];
 		}
 	}
 	return graph;
@@ -114,25 +138,17 @@ Grid.method('setObjectsOnGrid', function (objects, self) {
 	this.dijkstrasWithObjects.setGraph(graph);
 });
 
-Grid.method('coordsToBlock', function (x, y){
-	var block 		= {};
-	block.row 		= Math.floor(y/this.map.blockSize);
-	block.col	 	= Math.floor(x/this.map.blockSize);
-	block.x 		= block.col * this.map.blockSize;
-	block.y 		= block.row * this.map.blockSize;
-	block.node		= block.col + 'x' + block.row;
-	return block;
-});
-
 Grid.method('gridToBlock', function (row, col) {
-	var block 		= {};
-	block.row 		= row;
-	block.col	 	= col;
-	block.x 		= block.col * this.map.blockSize;
-	block.y 		= block.row * this.map.blockSize;
-	block.node		= block.col + 'x' + block.row;
-	return block;
+	var name = col+'x'+row;
+	return this.blocks[name];
 });	
+
+Grid.method('coordsToBlock', function (x, y){
+	return this.gridToBlock(
+		Math.floor(y/this.map.blockSize),
+		Math.floor(x/this.map.blockSize)
+	);
+});
 
 Grid.method('nodeToBlock', function (node) {
 	var xy = node.split('x');
