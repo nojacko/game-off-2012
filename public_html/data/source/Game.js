@@ -61,11 +61,13 @@ var GAME = {
 		
 		// Always remove first		
 		this.stage.removeChild(this.fps);
-		this.fps = null;		
-		this.level.map.removeGrid();
+		this.fps = null;
+		this.level.map.removeBlocks();
+		this.level.map.removeGrid();	
 		
 		if (this.debug) {
 			this.level.map.drawGrid();
+			this.level.map.drawBlocks();
 			this.drawFps();
 		} 		
 	}, 

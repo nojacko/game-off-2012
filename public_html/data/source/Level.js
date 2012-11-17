@@ -11,7 +11,9 @@ function Level (id)
 
 // Methods		
 Level.method('draw', function () {	
-	this.map.draw();
+	if (GAME.debug) {
+		this.map.drawBlocks();
+	}
 	this.playerGroup.draw();	
 });	
 

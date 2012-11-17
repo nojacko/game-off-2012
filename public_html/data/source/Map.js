@@ -4,6 +4,7 @@ function Map (data)
 	this.layout = null;
 	this.graph = null;
 	this.gridLines = [];
+	this.gridBlocks = [];
 	
 	for (var index in data) {
 		this[index] = data[index];
@@ -12,7 +13,7 @@ function Map (data)
 	this.grid = new Grid(this, this.layout, this.blockTypes)
 }
 
-Map.method('draw', function () {	
+Map.method('drawBlocks', function () {	
 	// Draw map
 	for (var y = 0; y < this.layout.length; y++) {
 		var row = this.layout[y];
@@ -23,10 +24,18 @@ Map.method('draw', function () {
 				square.x = x*this.blockSize;
 				square.y = y*this.blockSize;
 				square.graphics.beginFill(block.colour).rect(0, 0, this.blockSize, this.blockSize);
-				GAME.stage.addChild(square)	
+				GAME.stage.addChild(square);
+				this.gridBlocks[this.gridBlocks.length] = square;
 			}
 		}
 	}
+});
+
+Map.method('removeBlocks', function () {	
+	for (var i in this.gridBlocks) {
+		GAME.stage.removeChild(this.gridBlocks[i]);
+	}
+	this.gridBlocks = [];
 });
 
 Map.method('drawGrid', function () {
