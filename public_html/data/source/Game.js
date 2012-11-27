@@ -33,6 +33,7 @@ var GAME = {
 		
 		// Debugging Visuals
 		this.toggleDebug(this.debug); 
+		this.drawFps(); // Always render FPS
 		
 		// Draw
 		this.level.draw();
@@ -60,15 +61,12 @@ var GAME = {
 		} 
 		
 		// Always remove first		
-		this.stage.removeChild(this.fps);
-		this.fps = null;
 		this.level.map.removeBlocks();
 		this.level.map.removeGrid();	
 		
 		if (this.debug) {
 			this.level.map.drawGrid();
 			this.level.map.drawBlocks();
-			this.drawFps();
 		} 		
 	}, 
 	drawFps: function ()
