@@ -6,7 +6,9 @@ Character.method('characterInit', function (x, y) {
 	this.x = 0
 	this.y = 0
 	this.moveTarget = null;
+	this.moveLastTarget = null;
 	this.moveQueue = [];
+	this.moveCost = 1;
 	this.speed = 5; // Blocks per second
 	this.currentBlock = null;
 	
@@ -32,15 +34,17 @@ Character.method('processMoveQueue', function () {
 				// Reroute
 				GAME.level.updateObjectsOnGrid(this);
 				
+				this.moveLastTarget = this.moveTarget;
 				this.moveTarget = this.moveQueue[0].shift();						
 				var path = GAME.level.map.grid.shortestPath(this.currentBlock.node, this.moveTarget.node, true);
 					
 				if (path.length == 0) {
 					// Cannot find path, stop
-					this.moveTarget = null;
+					this.moveTarget = this.moveLastTarget = null;
 					this.moveQueue = [];
 				} else {
 					// Push new path to start of queue
+					this.moveLastTarget = this.moveTarget;
 					this.moveQueue.unshift(path);
 					this.moveTarget = this.moveQueue[0].shift();
 				}
@@ -50,13 +54,19 @@ Character.method('processMoveQueue', function () {
 	
 	if (this.moveTarget !== null) {	
 		var distance = Math.distanceBetweenObjs(this, this.moveTarget);
-		var moveDistance = (this.speed*GAME.frameTime*GAME.level.map.blockSize)/this.currentBlock.cost;
+		var cost = 1;
+		if (this.moveLastTarget !== null) {
+			if (typeof GAME.level.map.grid.dijkstras.graph[this.moveLastTarget.node] !== 'undefined' && typeof GAME.level.map.grid.dijkstras.graph[this.moveLastTarget.node][this.moveTarget.node] !== 'undefined') {
+				cost = GAME.level.map.grid.dijkstras.graph[this.moveLastTarget.node][this.moveTarget.node];
+			}
+		}
+		var moveDistance = (this.speed*GAME.frameTime*GAME.level.map.blockSize)/cost;
 		
 		if (distance < moveDistance) {
 			// Finish movement
 			this.x = this.moveTarget.x;
 			this.y = this.moveTarget.y;
-			this.moveTarget = null;
+			this.moveTarget = this.moveLastTarget = null;
 		} else {
 			var angleToTarget = Math.angleBetweenObjs(this, this.moveTarget);
 			var rads = Math.toRadian(angleToTarget)
@@ -77,6 +87,10 @@ Character.method('processMoveQueue', function () {
 	this.currentBlock = GAME.level.map.grid.coordsToBlock(this.x, this.y)
 	this.shape.x = this.x;
 	this.shape.y = this.y;
+	
+	if (this.moveLastTarget === null) {
+		this.moveLastTarget = this.currentBlock;
+	}
 });
 
 Character.method('removeOccupiedNodesFromPath', function () {
