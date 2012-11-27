@@ -14,6 +14,9 @@ function Block (map, row, col, data)
 	this.cost = (typeof data['cost'] === 'undefined') ? 0 : data['cost'];
 	this.noPathTo = (typeof data['noPathTo'] === 'undefined') ? [] : data['noPathTo'];
 	this.colour = (typeof data['colour'] === 'undefined') ? '' : data['colour'];
+	
+	this.rgb = hexToRgb(this.colour);
+	this.rgbaStr = (this.rgb === null) ? '' : 'rgba('+this.rgb.r+','+this.rgb.g+','+this.rgb.b+',0.2)';
 }
 
 Block.method('canLinkTo', function (to) {

@@ -19,11 +19,11 @@ Map.method('drawBlocks', function () {
 		var row = this.layout[y];
 		for (var x = 0; x < row.length; x++) {
 			var block = this.grid.gridToBlock(y, x);
-			if (block.colour !== '') {
+			if (block.rgbaStr !== '') {
 				var square = new createjs.Shape();
 				square.x = x*this.blockSize;
 				square.y = y*this.blockSize;
-				square.graphics.beginFill(block.colour).rect(0, 0, this.blockSize, this.blockSize);
+				square.graphics.beginFill(block.rgbaStr).rect(0, 0, this.blockSize, this.blockSize);
 				GAME.stage.addChild(square);
 				this.gridBlocks[this.gridBlocks.length] = square;
 			}
