@@ -16,7 +16,7 @@ Character.method('characterInit', function (x, y) {
 	this.shape.snapToPixel = true;
 });
 
-Character.method('tick', function () {
+Character.method('processMoveQueue', function () {
 	if (this.moveTarget === null && this.moveQueue.length > 0 && this.moveQueue[0].length > 0) {
 		// Check target isn't occupied 
 		this.moveTarget = this.moveQueue[0].shift();

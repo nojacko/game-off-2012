@@ -12,6 +12,10 @@ function Player (playerGroup, x, y) {
 
 Player.inherits(Character);
 
+Player.method('tick', function (active) {
+	this.processMoveQueue();
+});
+
 Player.method('setActive', function (active) {
 	if (active) {
 		this.playerGroup.setActive(this);
