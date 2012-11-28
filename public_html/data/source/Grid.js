@@ -144,9 +144,11 @@ Grid.method('gridToBlock', function (row, col) {
 });	
 
 Grid.method('coordsToBlock', function (x, y){
+	var row = Math.floor(y/this.map.blockSize);
+	var col = Math.floor(x/this.map.blockSize);
 	return this.gridToBlock(
-		Math.floor(y/this.map.blockSize),
-		Math.floor(x/this.map.blockSize)
+		row > 0 ? row : 1,
+		col > 0 ? col : 1
 	);
 });
 
