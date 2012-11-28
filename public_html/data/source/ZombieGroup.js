@@ -29,6 +29,12 @@ ZombieGroup.method('tick', function() {
 			this.lastSpawnedTime += 1000; // 1 sec
 		}
 	}
+	
+	// Call zombies' tick() method
+	this.zombiesIdle = [];
+	for (var i in this.zombies) {
+		this.zombies[i].tick();
+	}
 });
 
 ZombieGroup.method('getRandomSpawnBlock', function(player) {
