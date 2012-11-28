@@ -55,7 +55,7 @@ Character.method('processMoveQueue', function () {
 	if (this.moveTarget !== null) {	
 		var distance = Math.distanceBetweenObjs(this, this.moveTarget);
 		var cost = 1;
-		if (this.moveLastTarget !== null) {
+		if (typeof this.moveLastTarget !== 'undefined' && this.moveLastTarget !== null) {
 			if (typeof GAME.level.map.grid.dijkstras.graph[this.moveLastTarget.node] !== 'undefined' && typeof GAME.level.map.grid.dijkstras.graph[this.moveLastTarget.node][this.moveTarget.node] !== 'undefined') {
 				cost = GAME.level.map.grid.dijkstras.graph[this.moveLastTarget.node][this.moveTarget.node];
 			}
