@@ -66,7 +66,7 @@ Level.method('loadLevelFile', function () {
 		[
 			{ 
 				id: 'level', 
-				src: 'data/levels/' + this.id + '.json',
+				src: 'data/levels/' + this.id + '/level.json',
 				type: createjs.PreloadJS.JSON
 			}
 		]
