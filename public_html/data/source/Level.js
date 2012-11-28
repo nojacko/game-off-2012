@@ -5,6 +5,7 @@ function Level (id)
 	this.map = null;
 	this.objects = [];
 	this.playerGroup = null;
+	this.zombieGroup = null;
 	
 	this.loadLevelFile();
 }
@@ -19,6 +20,7 @@ Level.method('draw', function () {
 
 Level.method('tick', function () {		
 	this.playerGroup.tick();	
+	this.zombieGroup.tick();
 });
 
 Level.method('onClick', function () {		
@@ -115,6 +117,7 @@ Level.method('levelAssetsLoaded', function (event) {
 	
 	this.map = new Map(this.data);
 	this.playerGroup = new PlayerGroup(this.players);
+	this.zombieGroup = new ZombieGroup();
 	
 	// Set up background
 	if (typeof this.preload.getResult('background') !== 'undefined') {
