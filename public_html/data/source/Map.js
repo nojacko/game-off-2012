@@ -24,6 +24,7 @@ Map.method('drawBlocks', function () {
 				square.x = x*this.blockSize;
 				square.y = y*this.blockSize;
 				square.graphics.beginFill(block.rgbaStr).rect(0, 0, this.blockSize, this.blockSize);
+				square.cache(0, 0, this.blockSize, this.blockSize);
 				GAME.stage.addChild(square);
 				this.gridBlocks[this.gridBlocks.length] = square;
 			}
@@ -48,6 +49,7 @@ Map.method('drawGrid', function () {
 		this.gridLines[i] = new createjs.Shape();
 		this.gridLines[i].x = x*this.blockSize;
 		this.gridLines[i].graphics.beginFill("#333333").rect(0, 0, 1, GAME.canvas.height);
+		this.gridLines[i].cache(0, 0, 1, GAME.canvas.height);
 		GAME.stage.addChild(this.gridLines[i]);
 		i++;
 	}
@@ -56,6 +58,7 @@ Map.method('drawGrid', function () {
 		this.gridLines[i] = new createjs.Shape();
 		this.gridLines[i].y = y*this.blockSize;
 		this.gridLines[i].graphics.beginFill("#333333").rect(0, 0, GAME.canvas.width, 1);
+		this.gridLines[i].cache(0, 0, GAME.canvas.width, 1);
 		GAME.stage.addChild(this.gridLines[i]);
 		i++;
 	}
