@@ -154,3 +154,13 @@ Grid.method('nodeToBlock', function (node) {
 	var xy = node.split('x');
 	return this.gridToBlock(xy[1], xy[0]);
 });	
+
+Grid.method('getAllBlocksByProperty', function (prop, id) {
+	var blocks = [];
+	for (var name in this.blocks) {
+		if (this.blocks[name][prop] === id) {
+			blocks[blocks.length] = this.blocks[name];
+		}
+	}
+	return blocks;
+});	
