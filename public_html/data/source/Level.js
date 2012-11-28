@@ -114,7 +114,15 @@ Level.method('levelAssetsLoaded', function (event) {
 	}
 	
 	this.map = new Map(this.data);
-	this.playerGroup = new PlayerGroup(this.players)
+	this.playerGroup = new PlayerGroup(this.players);
+	
+	// Set up background
+	if (typeof this.preload.getResult('background') !== 'undefined') {
+		var background = new createjs.Bitmap(this.preload.getResult('background').result);
+		background.x = 0;
+		background.y = 0;
+		GAME.stage.addChild(background);
+	}
 	
 	// Pass back to game
 	GAME.start();		

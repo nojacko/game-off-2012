@@ -1,6 +1,8 @@
 {
 	"name" : "Test Map", 
-	"assets" : [], 
+	"assets" : [
+		{"id" : "background", "src": "data/levels/test/background.jpg"}
+	], 
 	"players" : [
 		{ "x" : 39, "y" : 34},
 		{ "x" : 39, "y" : 35},
