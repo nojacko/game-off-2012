@@ -33,7 +33,6 @@ Level.method('addObject', function (object) {
 
 Level.method('updateObjectsOnGrid', function (self) {
 	var self = typeof self === 'undefined' ? null : self;
-	
 	this.map.grid.setObjectsOnGrid(this.objects, self);
 });
 
@@ -50,6 +49,23 @@ Level.method('objectAtBlock', function (block, self) {
 		}
 	}
 	return null;
+});
+
+Level.method('getBlocksNearBlock', function (block, unoccupiedOnly) {
+	unoccupiedOnly = (typeof unoccupiedOnly === 'undefined') ? false : unoccupiedOnly;
+	
+	var blocks = [];
+	if (typeof this.map.grid.dijkstras.graph[block.node] !== 'undefined') {
+		var neighbours = this.map.grid.dijkstras.graph[block.node];
+		
+		for (var node in neighbours) {
+			var block = this.map.grid.nodeToBlock(node);
+			if (unoccupiedOnly === false || this.objectAtBlock(block) === null) {
+				blocks[blocks.length] = block;
+			}
+		}
+	}
+	return blocks;
 });
 
 Level.method('loadLevelFile', function () {	
