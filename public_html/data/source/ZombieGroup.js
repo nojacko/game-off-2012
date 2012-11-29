@@ -15,7 +15,7 @@ ZombieGroup.method('tick', function() {
 		if (spawnBlock !== null) {
 			// Create zombie
 			var index = this.zombies.length;
-			this.zombies[index] = new Zombie(spawnBlock.col, spawnBlock.row);
+			this.zombies[index] = new Zombie(this, spawnBlock.col, spawnBlock.row);
 			GAME.stage.addChild(this.zombies[index].shape);
 			GAME.level.addObject(this.zombies[index]);
 			
@@ -55,17 +55,5 @@ ZombieGroup.method('getRandomSpawnBlock', function(player) {
 
 ZombieGroup.method('getNearestEntranceBlock', function(block) {
 	var blocks = GAME.level.map.grid.getAllBlocksByProperty('id', 3);
-	var shortestDistance = Infinity;
-	var nearestBlock = null;
-	
-	for (var i in blocks) {
-		var distance = Math.distanceBetweenObjs(blocks[i], block);
-		
-		if (distance < shortestDistance) {
-			shortestDistance = distance;
-			nearestBlock = blocks[i];
-		}
-	}
-	
-	return nearestBlock;
+	return GAME.level.map.grid.blockNearestToBlock(block, blocks);
 });
