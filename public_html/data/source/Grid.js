@@ -18,20 +18,24 @@ Grid.method('shortestPath', function (from, to, withObjects) {
 	GAME.debug ? console.log('Grid.shortestPath') : null;	
 	
 	withObjects = (typeof withObjects === 'undefined') ? false : withObjects;
-	
-	var time = microtime();		
-	var nodes;
-	if (withObjects) {
-		nodes = this.dijkstrasWithObjects.getPath(from, to);		
-	} else {
-		nodes = this.dijkstras.getPath(from, to);
-	}
-	
-	GAME.debug ? console.log('- route: ' + (microtime()-time) + 'seconds') : null;		
 
-	var path = [];		
-	for (var i in nodes) {
-		path[path.length] = this.nodeToBlock(nodes[i]);
+	var path = [];
+	try {
+		var time = microtime();		
+		var nodes;
+		if (withObjects) {
+			nodes = this.dijkstrasWithObjects.getPath(from, to);		
+		} else {
+			nodes = this.dijkstras.getPath(from, to);
+		}
+		
+		GAME.debug ? console.log('- route: ' + (microtime()-time) + 'seconds') : null;		
+		
+		for (var i in nodes) {
+			path[path.length] = this.nodeToBlock(nodes[i]);
+		}
+	} catch (e) {
+		// Do nothing
 	}
 	return path;
 });
@@ -137,7 +141,7 @@ Grid.method('setObjectsOnGrid', function (objects, self) {
 	
 	this.dijkstrasWithObjects.setGraph(graph);
 });
-
+	
 Grid.method('gridToBlock', function (row, col) {
 	var name = col+'x'+row;
 	return this.blocks[name];
@@ -166,3 +170,20 @@ Grid.method('getAllBlocksByProperty', function (prop, id) {
 	}
 	return blocks;
 });	
+
+
+Grid.method('blockNearestToBlock', function(block, blocks) {
+	var shortestDistance = Infinity;
+	var nearestBlock = null;
+	
+	for (var i in blocks) {
+		var distance = Math.distanceBetweenObjs(blocks[i], block);
+		
+		if (distance < shortestDistance) {
+			shortestDistance = distance;
+			nearestBlock = blocks[i];
+		}
+	}
+	
+	return nearestBlock;
+});
