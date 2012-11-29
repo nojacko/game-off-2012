@@ -20,35 +20,48 @@ Character.method('characterInit', function (x, y) {
 
 Character.method('processMoveQueue', function () {
 	if (this.moveTarget === null && this.moveQueue.length > 0 && this.moveQueue[0].length > 0) {
+		this.moveLastTarget = this.moveTarget;
 		// Check target isn't occupied 
 		this.moveTarget = this.moveQueue[0].shift();
 	
 		// if occupied, attempt to move around target
-		if (GAME.level.objectAtBlock(this.moveTarget, this) !== null) {				
-			this.removeOccupiedNodesFromPath();
+		if (GAME.level.objectAtBlock(this.moveTarget, this) !== null) {
+			var rerouteTo = this.getFinalDestination();
 			
-			if (typeof this.moveQueue[0] === 'undefined' || this.moveQueue[0].first() === null) {
-				// Stop moving
-				this.moveTarget = null;
+			// If close, stop
+			if (Math.distanceBetweenObjs(rerouteTo, this.currentBlock) < GAME.level.map.blockSize*1.5) {
+				this.stop();			
 			} else {
-				// Reroute
-				GAME.level.updateObjectsOnGrid(this);
+				this.removeOccupiedNodesFromPath();
 				
-				this.moveLastTarget = this.moveTarget;
-				this.moveTarget = this.moveQueue[0].shift();						
-				var path = GAME.level.map.grid.shortestPath(this.currentBlock.node, this.moveTarget.node, true);
-					
-				if (path.length == 0) {
-					// Cannot find path, stop
-					this.moveTarget = this.moveLastTarget = null;
-					this.moveQueue = [];
-				} else {
-					// Push new path to start of queue
-					this.moveLastTarget = this.moveTarget;
-					this.moveQueue.unshift(path);
-					this.moveTarget = this.moveQueue[0].shift();
+				if (this.moveQueue.length === 0 || this.moveQueue[0].first() === null) {
+					var neighbours = GAME.level.getBlocksNearBlock(rerouteTo, true);
+
+					if (neighbours.length === 0) {
+						this.stop();	
+						rerouteTo = null;				
+					} else {
+						rerouteTo = GAME.level.map.grid.blockNearestToBlock(rerouteTo, neighbours);
+					}
+				} else { 
+					rerouteTo = this.moveQueue[0].shift();
 				}
-			} 
+				
+				if (rerouteTo !== null) {
+					// Reroute
+					GAME.level.updateObjectsOnGrid(this);
+						
+					var path = GAME.level.map.grid.shortestPath(this.currentBlock.node, rerouteTo.node, true);
+						
+					if (path.length == 0) {
+						this.stop();
+					} else {
+						// Push new path to start of queue
+						this.moveQueue.unshift(path);
+						this.moveTarget = this.moveQueue[0].shift();
+					}
+				} 
+			}
 		}
 	}
 	
@@ -121,6 +134,11 @@ Character.method('removeOccupiedNodesFromPath', function () {
 	
 	// Clean deleted values
 	this.moveQueue = _.compact(this.moveQueue); 
+});
+
+Character.method('stop', function () {
+	this.moveTarget = this.moveLastTarget = null;
+	this.moveQueue = [];
 });
 
 Character.method('addPath', function (path) {
