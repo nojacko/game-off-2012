@@ -65,3 +65,19 @@ PlayerGroup.method('tick', function() {
 		this.players[i].tick();
 	}
 });
+
+PlayerGroup.method('playerNearestToBlock', function(block) {
+	var shortestDistance = Infinity;
+	var nearestBlock = null;
+	
+	for (var i in this.players) {
+		var distance = Math.distanceBetweenObjs(this.players[i].currentBlock, block);
+		
+		if (distance < shortestDistance) {
+			shortestDistance = distance;
+			nearestBlock = this.players[i];
+		}
+	}
+	
+	return nearestBlock;
+});
