@@ -7,7 +7,7 @@ PlayerUI.method('addPlayer', function (player) {
 	this.domRoot.append(
 		'<div id="' + id + '" class="players">' + 
 		'	<div class="stop">X</div>'+ 
-		'	<div class="name">Clone #'+player.id+'</div>' + 
+		'	<div class="name">'+player.name+'</div>' + 
 		'	<div class="health">' + 
 		'		<div class="bar"></div>' + 
 		'	</div>' + 
@@ -77,7 +77,13 @@ PlayerUI.method('updatePlayer', function (player) {
 });
 
 PlayerUI.method('update', function () { 
+	// Score
+	var score = this.domRoot.find('#score');
+	score.find('#level').html('Level: ' + GAME.level.score.level);
+	score.find('#kills').html('Kills: ' + GAME.level.score.kills);
+	score.find('#score').html('Score: ' + GAME.level.score.score);
 	
+	// Players
 	for (var i in GAME.level.playerGroup.players) {
 		var player = GAME.level.playerGroup.players[i];
 		this.updatePlayer(player);
@@ -85,7 +91,13 @@ PlayerUI.method('update', function () {
 });
 
 PlayerUI.method('draw', function () { 
-	this.domRoot.html('');
+	this.domRoot.html(
+		'<div id="score">' + 
+		'	<div id="level">Level: 0</div>' +  
+		'	<div id="kills">Kills: 0</div>' +
+		'	<div id="score">Score: 0</div>' +
+		'</div>'
+	);
 	for (var i in GAME.level.playerGroup.players) {
 		var player = GAME.level.playerGroup.players[i];
 		this.addPlayer(player);
