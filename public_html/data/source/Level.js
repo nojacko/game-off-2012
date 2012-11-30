@@ -6,6 +6,11 @@ function Level (id)
 	this.objects = [];
 	this.playerGroup = null;
 	this.zombieGroup = null;
+	this.score = {
+		level: 0, 
+		kills: 0, 
+		score: 0
+	};
 	
 	this.loadLevelFile();
 }
