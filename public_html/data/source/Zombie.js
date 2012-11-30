@@ -13,6 +13,9 @@ function Zombie (zombieGroup, x, y) {
 	this.targetPlayer = null;
 	this.targetBlock = null;
 	
+	this.attackRange = GAME.level.map.blockSize*2;
+	this.damage = 20;
+	
 	this.zombieGroup = zombieGroup;
 	
 	this.render();
@@ -27,37 +30,39 @@ Zombie.STATUS_ATTACK = 'STATUS_ATTACK';
 
 
 Zombie.method('tick', function (active) {	
-	// If player in range
-	if (false) {
-		this.status = Zombie.STATUS_ATTACK;
-	} else 	{
-		// Else, move
-		switch (this.status) {
-			case Zombie.STATUS_WANDERING:
-				var foundPlayer = false;
-				// Move to nearest player
-				if (this.lastAction < (microtime() - this.actionInterval)) {
-					this.followPlayer();
-					this.lastAction	= microtime()
-				} 
-				
-				this.processMoveQueue(); 
-				break;
-			default: 	
-				// Move to nearest player
-			if (this.lastAction < (microtime() - this.actionInterval)) {
-					this.followPlayer();
-					this.lastAction	= microtime()
-				}	
-				break;
+	var actionOk = this.lastAction < (microtime() - this.actionInterval);
+	
+	this.status = Zombie.STATUS_WANDERING;
+	
+	// Is player in range
+	if (actionOk && this.targetPlayer !== null) {		
+		var distanceToPlayer = Math.distanceBetweenObjs(this.targetPlayer.currentBlock, this.currentBlock);
+		if (distanceToPlayer < this.attackRange) {
+			this.status = Zombie.STATUS_ATTACKING;
 		} 
-		
-		// Status
-		if (this.moveQueue.length > 0 || this.moveTarget !== null) {
-			this.status = Zombie.STATUS_WANDERING;
-		} else {
-			this.status = Zombie.STATUS_IDLE;
-		}
+	}
+	
+	switch (this.status) {
+		case Zombie.STATUS_ATTACKING:
+			if (actionOk) {		
+				this.targetPlayer.damage(this.damage);
+				if (this.targetPlayer.status === Player.STATUS_DEAD) {
+					this.targetPlayer = null;
+				}
+			}
+			break;
+		case Zombie.STATUS_WANDERING:
+		default: 
+			// Move to nearest player
+			if (actionOk) {
+				this.followPlayer();
+			} 				
+			this.processMoveQueue(); 
+	} 
+	
+	// If action could have happened update last action
+	if (actionOk) {
+		this.lastAction	= microtime();
 	}
 });
 
@@ -76,7 +81,7 @@ Zombie.method('followPlayer', function () {
 		}
 		
 		// Route
-		if (route) { 
+		if (route && this.targetPlayer !== null) { 
 			var path = GAME.level.map.grid.shortestPath(this.currentBlock.node, this.targetPlayer.currentBlock.node);
 			if (path.length > 0) {
 				this.stop();
