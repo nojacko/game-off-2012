@@ -15,6 +15,7 @@ Level.method('draw', function () {
 	if (GAME.debug) {
 		this.map.drawBlocks();
 	}
+	this.playerUI.draw();
 });	
 
 Level.method('tick', function () {		
@@ -164,6 +165,7 @@ Level.method('levelAssetsLoaded', function (event) {
 	this.map = new Map(this.data);
 	this.playerGroup = new PlayerGroup();
 	this.zombieGroup = new ZombieGroup();
+	this.playerUI = new PlayerUI();
 	
 	// Set up background
 	if (typeof this.preload.getResult('background') !== 'undefined') {

@@ -1,6 +1,8 @@
 function Player (playerGroup, x, y) {
 	this.characterInit(x, y);
 	
+	this.id = microtime()*1000;
+	
 	this.x = x*GAME.level.map.blockSize;
 	this.y = y*GAME.level.map.blockSize;
 	
@@ -81,9 +83,14 @@ Player.method('render', function () {
 	);
 });
 
+Player.method('isActive', function () { 
+	return this.playerGroup.getActive() === this;
+});
+
 Player.method('onClick', function () { 
-	var active = this.playerGroup.getActive() === this;
-	this.setActive(!active);	
+	var active = this.isActive();
+	this.setActive(!active);
+	return !active;
 });
 
 Player.method('onMouseOver', function () { 

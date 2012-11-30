@@ -19,6 +19,7 @@ PlayerGroup.method('tick', function() {
 			this.players[index] = new Player(this, spawnBlock.col, spawnBlock.row);
 			GAME.stage.addChild(this.players[index].shape);
 			GAME.level.addObject(this.players[index]);
+			GAME.level.playerUI.addPlayer(this.players[index]);
 			
 			this.lastSpawnedTime = microtime(); 
 		} else {
@@ -29,8 +30,23 @@ PlayerGroup.method('tick', function() {
 	for (var i in this.players) {
 		this.players[i].tick();
 	}
+	
+	// Update UI every few ticks
+	if (createjs.Ticker.getTicks() % 30 == 0) {
+		GAME.level.playerUI.update();
+	}
 });
 
+PlayerGroup.method('getPlayerById', function(id) {
+	id = id.replace('player_', '');
+	
+	for (var i in this.players) {
+		if (this.players[i].id == id) {
+			return this.players[i];
+		}
+	}
+	return null;
+});
 PlayerGroup.method('getActive', function(player) {
 	return this.activePlayer;	
 });
@@ -45,6 +61,7 @@ PlayerGroup.method('setActive', function(player) {
 PlayerGroup.method('removePlayer', function(player) {
 	for (var i in this.players) {
 		if (this.players[i] === player) {
+			GAME.level.playerUI.removePlayer(player);
 			GAME.level.removeObject(this.players[i]);
 			delete this.players[i];
 			delete player;
