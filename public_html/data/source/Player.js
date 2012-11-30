@@ -8,8 +8,15 @@ function Player (playerGroup, x, y) {
 	this.colour = '#FFFFFF';
 	
 	this.status = Player.STATUS_ALIVE;
+
+	this.lastAction = 0;
+	this.actionInterval = 1;
 	
 	this.health = 100;
+	this.attackRange = GAME.level.map.blockSize*2;
+	this.attackHp = 50;
+	
+	this.currentBlock = GAME.level.map.grid.coordsToBlock(this.x, this.y);
 	
 	this.render();
 }
@@ -20,8 +27,26 @@ Player.inherits(Character);
 Player.STATUS_ALIVE = 'STATUS_ALIVE';
 Player.STATUS_DEAD = 'STATUS_DEAD';
 
-Player.method('tick', function (active) {
+Player.method('tick', function (active) {	
+	var actionOk = this.lastAction < (microtime() - this.actionInterval);
+	
+	// Attack a zombie
+	if (actionOk) {
+		var nearestZombie = GAME.level.zombieGroup.zombieNearestToBlock(this.currentBlock);
+		if (nearestZombie !== null) {
+			var distanceToPlayer = Math.distanceBetweenObjs(nearestZombie.currentBlock, this.currentBlock);
+			if (distanceToPlayer < this.attackRange) {
+				nearestZombie.damage(this.attackHp);
+			} 
+		}
+	}
+	
 	this.processMoveQueue();
+	
+	// If action could have happened update last action
+	if (actionOk) {
+		this.lastAction	= microtime();
+	}
 });
 
 Player.method('damage', function (hp) {

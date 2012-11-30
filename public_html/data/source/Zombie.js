@@ -12,11 +12,14 @@ function Zombie (zombieGroup, x, y) {
 	
 	this.targetPlayer = null;
 	this.targetBlock = null;
-	
+
+	this.health = 100;
 	this.attackRange = GAME.level.map.blockSize*2;
-	this.damage = 20;
+	this.attackHp = 20;
 	
 	this.zombieGroup = zombieGroup;
+
+	this.currentBlock = GAME.level.map.grid.coordsToBlock(this.x, this.y);
 	
 	this.render();
 }
@@ -27,6 +30,7 @@ Zombie.inherits(Character);
 Zombie.STATUS_IDLE = 'STATUS_IDLE';
 Zombie.STATUS_WANDERING = 'STATUS_WANDERING';
 Zombie.STATUS_ATTACK = 'STATUS_ATTACK';
+Zombie.STATUS_DEAD = 'STATUS_DEAD';
 
 
 Zombie.method('tick', function (active) {	
@@ -45,7 +49,7 @@ Zombie.method('tick', function (active) {
 	switch (this.status) {
 		case Zombie.STATUS_ATTACKING:
 			if (actionOk) {		
-				this.targetPlayer.damage(this.damage);
+				this.targetPlayer.damage(this.attackHp);
 				if (this.targetPlayer.status === Player.STATUS_DEAD) {
 					this.targetPlayer = null;
 				}
@@ -89,6 +93,18 @@ Zombie.method('followPlayer', function () {
 				this.targetBlock = this.targetPlayer.currentBlock;
 			}
 		}
+	}
+});
+
+Zombie.method('damage', function (hp) {
+	this.health -= hp;
+	
+	GAME.debug ? console.log('zombie damanged - health: ' + this.health) : null;
+	
+	if (this.health <= 0) {
+		this.zombieGroup.removeZombie(this);
+		this.status = Zombie.STATUS_DEAD;
+		GAME.debug ? console.log('zombie dead') : null;
 	}
 });
 

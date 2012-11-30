@@ -37,23 +37,40 @@ ZombieGroup.method('tick', function() {
 	}
 });
 
-ZombieGroup.method('getRandomSpawnBlock', function(player) {
-	var spawnBlock = null;
-	var spawnBlocks = _.shuffle(GAME.level.map.grid.getAllBlocksByProperty('id', 2));
-	
-	do {
-		spawnBlock = spawnBlocks.shift();
-		
-		if (GAME.level.objectAtBlock(spawnBlock) === null) {
-			break;				
+ZombieGroup.method('removeZombie', function(zombie) {
+	for (var i in this.zombies) {
+		if (this.zombies[i] === zombie) {
+			GAME.level.removeObject(this.zombies[i]);
+			delete this.zombies[i];
+			delete zombie;
 		}
-		spawnBlock = null;
-	} while (spawnBlocks.length > 0 && spawnBlock === null) 
+	}
 	
-	return spawnBlock;
+	this.zombies = _.compact(this.zombies); 
+});
+
+ZombieGroup.method('getRandomSpawnBlock', function() {
+	var spawnBlocks = _.shuffle(GAME.level.map.grid.getAllBlocksByProperty('id', 2));
+	return GAME.level.getRandomBlock(spawnBlocks, true)
 });
 
 ZombieGroup.method('getNearestEntranceBlock', function(block) {
 	var blocks = GAME.level.map.grid.getAllBlocksByProperty('id', 3);
 	return GAME.level.map.grid.blockNearestToBlock(block, blocks);
+});
+
+ZombieGroup.method('zombieNearestToBlock', function(block) {
+	var shortestDistance = Infinity;
+	var nearest = null;
+	
+	for (var i in this.zombies) {
+		var distance = Math.distanceBetweenObjs(this.zombies[i].currentBlock, block);
+		
+		if (distance < shortestDistance) {
+			shortestDistance = distance;
+			nearest = this.zombies[i];
+		}
+	}
+	
+	return nearest;
 });
