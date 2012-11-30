@@ -1,19 +1,33 @@
-function PlayerGroup (players) 
+function PlayerGroup () 
 {
 	this.players = [];
 	this.activePlayer = null;
 	
-	for (var i = 0; i < players.length; i++) {
-		var player = players[i];
-		this.players[i] = new Player(this, player.x, player.y);
-		GAME.level.addObject(this.players[i]);
-	}
+	this.spawnInterval = 30;
+	this.lastSpawnedTime = 0; // microtime();
 }
 
-PlayerGroup.method('draw', function(player) {
-	for (var index in this.players) {
-		GAME.stage.removeChild(this.players[index].shape);
-		GAME.stage.addChild(this.players[index].shape);
+PlayerGroup.method('tick', function() {
+	// Spawn new player 	
+	if (this.lastSpawnedTime < (microtime() - this.spawnInterval)) {
+		var spawnBlock = this.getRandomSpawnBlock();
+		
+		// Spawn, or wait 1 second.
+		if (spawnBlock !== null) {
+			// Create player
+			var index = this.players.length;
+			this.players[index] = new Player(this, spawnBlock.col, spawnBlock.row);
+			GAME.stage.addChild(this.players[index].shape);
+			GAME.level.addObject(this.players[index]);
+			
+			this.lastSpawnedTime = microtime(); 
+		} else {
+			this.lastSpawnedTime += 1000; // 1 sec
+		}
+	}
+	
+	for (var i in this.players) {
+		this.players[i].tick();
 	}
 });
 
@@ -72,12 +86,6 @@ PlayerGroup.method('onClick', function() {
 	}
 });	
 
-PlayerGroup.method('tick', function() {
-	for (var i in this.players) {
-		this.players[i].tick();
-	}
-});
-
 PlayerGroup.method('playerNearestToBlock', function(block) {
 	var shortestDistance = Infinity;
 	var nearestBlock = null;
@@ -92,4 +100,9 @@ PlayerGroup.method('playerNearestToBlock', function(block) {
 	}
 	
 	return nearestBlock;
+});
+
+PlayerGroup.method('getRandomSpawnBlock', function() {
+	var spawnBlocks = _.shuffle(GAME.level.map.grid.getAllBlocksByProperty('id', 6));
+	return GAME.level.getRandomBlock(spawnBlocks, true);
 });
