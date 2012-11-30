@@ -1,8 +1,10 @@
 function ZombieGroup () 
 {
-	this.spawnInterval = 5;
+	this.spawnInterval = 6;
+	this.minSpawnInterval = 1;
 	this.lastSpawnedTime = 0; // microtime();
 	this.totalSpawns = 0;
+	this.spawnsPerLevel = 5;
 	
 	this.zombies = [];
 }
@@ -30,8 +32,9 @@ ZombieGroup.method('tick', function() {
 			
 			// Gradually increase spawn frequency
 			GAME.debug ? console.log('Zombies spawned: ' + this.totalSpawns) : null;
-			if (this.totalSpawns % 10 == 0) {
-				if (this.spawnInterval > 1) {
+			if (this.totalSpawns % this.spawnsPerLevel == 0) {
+				if (this.spawnInterval > this.minSpawnInterval) {
+					GAME.level.score.level++;
 					this.spawnInterval -= 0.5;
 					GAME.debug ? console.log('Zombie spawn interval: ' + this.spawnInterval) : null;
 				}
