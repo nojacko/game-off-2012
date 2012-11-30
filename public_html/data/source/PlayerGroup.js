@@ -2,6 +2,7 @@ function PlayerGroup ()
 {
 	this.players = [];
 	this.activePlayer = null;
+	this.maxPlayers = 5;
 	
 	this.spawnInterval = 30;
 	this.lastSpawnedTime = 0; // microtime();
@@ -9,7 +10,7 @@ function PlayerGroup ()
 
 PlayerGroup.method('tick', function() {
 	// Spawn new player 	
-	if (this.lastSpawnedTime < (microtime() - this.spawnInterval)) {
+	if (this.players.length < this.maxPlayers && this.lastSpawnedTime < (microtime() - this.spawnInterval)) {
 		var spawnBlock = this.getRandomSpawnBlock();
 		
 		// Spawn, or wait 1 second.
