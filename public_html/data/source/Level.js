@@ -15,7 +15,6 @@ Level.method('draw', function () {
 	if (GAME.debug) {
 		this.map.drawBlocks();
 	}
-	this.playerGroup.draw();	
 });	
 
 Level.method('tick', function () {		
@@ -79,6 +78,23 @@ Level.method('getBlocksNearBlock', function (block, unoccupiedOnly) {
 		}
 	}
 	return blocks;
+});
+
+Level.method('getRandomBlock', function (blocks, unoccupiedOnly) {
+	unoccupiedOnly = (typeof unoccupiedOnly === 'undefined') ? false : unoccupiedOnly;
+	
+	var block = null;
+	
+	do {
+		block = blocks.shift();
+		
+		if (unoccupiedOnly == false || GAME.level.objectAtBlock(block) === null) {
+			break;				
+		}
+		block = null;
+	} while (blocks.length > 0 && block === null) 
+	
+	return block;
 });
 
 Level.method('loadLevelFile', function () {	
@@ -145,7 +161,7 @@ Level.method('levelAssetsLoaded', function (event) {
 	}
 	
 	this.map = new Map(this.data);
-	this.playerGroup = new PlayerGroup(this.players);
+	this.playerGroup = new PlayerGroup();
 	this.zombieGroup = new ZombieGroup();
 	
 	// Set up background
