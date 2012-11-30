@@ -8,7 +8,7 @@ function Zombie (zombieGroup, x, y) {
 	this.colour = '#33CC33';
 	
 	this.lastAction = 0;
-	this.actionInterval = 1;
+	this.actionInterval = 2;
 	
 	this.targetPlayer = null;
 	this.targetBlock = null;
@@ -102,6 +102,11 @@ Zombie.method('damage', function (hp) {
 	GAME.debug ? console.log('zombie damanged - health: ' + this.health) : null;
 	
 	if (this.health <= 0) {
+		// Score
+		GAME.level.score.score += (10 + GAME.level.score.level-1);
+		GAME.level.score.kills++;
+		
+		// Kill zombies
 		this.zombieGroup.removeZombie(this);
 		this.status = Zombie.STATUS_DEAD;
 		GAME.debug ? console.log('zombie dead') : null;
