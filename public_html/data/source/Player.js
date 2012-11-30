@@ -2,6 +2,7 @@ function Player (playerGroup, x, y) {
 	this.characterInit(x, y);
 	
 	this.id = Player.getNextId();
+	this.name = (this.id == 1) ? 'You' : 'Clone #' + this.id;
 	
 	this.x = x*GAME.level.map.blockSize;
 	this.y = y*GAME.level.map.blockSize;
@@ -72,6 +73,14 @@ Player.method('tick', function (active) {
 	// If action could have happened update last action
 	if (actionOk) {
 		this.lastAction	= microtime();
+	}
+	
+	// Refills
+	if (this.currentBlock.id == 7) {
+		this.ammo = this.maxAmmo;
+	}
+	if (this.currentBlock.id == 8) {
+		this.health = 100;
 	}
 });
 
