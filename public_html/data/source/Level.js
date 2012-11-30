@@ -31,6 +31,19 @@ Level.method('addObject', function (object) {
 	this.objects[this.objects.length] = object;
 });	
 
+Level.method('removeObject', function (object) {	
+	for (var i in this.objects) {
+		if (this.objects[i] === object) {
+			if (typeof this.objects[i].shape !== 'undefined') {				
+				GAME.stage.removeChild(this.objects[i].shape);
+			}
+			
+			delete this.objects[i];
+			delete object;
+		}
+	}		
+});	
+
 Level.method('updateObjectsOnGrid', function (self) {
 	var self = typeof self === 'undefined' ? null : self;
 	this.map.grid.setObjectsOnGrid(this.objects, self);
