@@ -28,6 +28,18 @@ PlayerGroup.method('setActive', function(player) {
 	this.activePlayer = player;	
 });
 
+PlayerGroup.method('removePlayer', function(player) {
+	for (var i in this.players) {
+		if (this.players[i] === player) {
+			GAME.level.removeObject(this.players[i]);
+			delete this.players[i];
+			delete player;
+		}
+	}
+	
+	this.players = _.compact(this.players); 
+});
+
 PlayerGroup.method('removeActive', function() {
 	this.activePlayer = null;
 	
