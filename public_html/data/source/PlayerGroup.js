@@ -4,7 +4,7 @@ function PlayerGroup ()
 	this.activePlayer = null;
 	this.maxPlayers = 5;
 	
-	this.spawnInterval = 20;
+	this.spawnInterval = 30;
 	this.lastSpawnedTime = 0; // microtime();
 }
 
@@ -70,6 +70,11 @@ PlayerGroup.method('removePlayer', function(player) {
 	}
 	
 	this.players = _.compact(this.players); 
+	
+	// Game over?
+	if (this.players.length == 0) {
+		GAME.gameOver();
+	}
 });
 
 PlayerGroup.method('removeActive', function() {
