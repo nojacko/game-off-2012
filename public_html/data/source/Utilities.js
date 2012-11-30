@@ -59,21 +59,31 @@ Math.roundToDp = function (num, dp)
 	return Math.round(num*Math.pow(10,dp))/Math.pow(10,dp);
 }
 
+/** 
+ * Get random number between two other numbers
+ * http://stackoverflow.com/questions/4959975/random-between-two-numbers-in-javascript
+ */
+
+Math.randomNumberBetween = function (from, to)
+{
+    return Math.floor(Math.random()*(to-from+1)+from);
+}
+
 function microtime () {
   return new Date().getTime() / 1000;   
 }
 
 
-/**
-* Array functions
-* Use Object.defineProperty to prevent enumerating issues.
-*/
+/** 
+ * Array functions
+ * Use Object.defineProperty to prevent enumerating issues.
+ */
 
 
 /**
-* Shuffle items in array.
-* http://stackoverflow.com/questions/2450954/how-to-randomize-a-javascript-array
-*/
+ * Shuffle items in array.
+ * http://stackoverflow.com/questions/2450954/how-to-randomize-a-javascript-array
+ */
 if (!Array.prototype.prototype) {
 	Object.defineProperty(Array.prototype, 'shuffle', {
 		value: function() { 
