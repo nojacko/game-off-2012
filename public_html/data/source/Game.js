@@ -53,6 +53,10 @@ var GAME = {
 		createjs.Ticker.setFPS(60);
 		createjs.Ticker.addListener(this);	
 	}, 
+	gameOver: function () {		
+		createjs.Ticker.setPaused(true);
+		alert('You\'re Forked!')
+	}, 
 	onClick: function (on)
 	{
 		this.debug ? console.log('Game.onClick') : null;
