@@ -7,7 +7,7 @@ PlayerUI.method('addPlayer', function (player) {
 	this.domRoot.append(
 		'<div id="' + id + '" class="players">' + 
 		'	<div class="stop">X</div>'+ 
-		'	<div class="name">Player</div>' + 
+		'	<div class="name">Clone #'+player.id+'</div>' + 
 		'	<div class="health">' + 
 		'		<div class="bar"></div>' + 
 		'	</div>' + 

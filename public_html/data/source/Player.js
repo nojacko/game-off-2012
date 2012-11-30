@@ -1,7 +1,7 @@
 function Player (playerGroup, x, y) {
 	this.characterInit(x, y);
 	
-	this.id = microtime()*1000;
+	this.id = Player.getNextId();
 	
 	this.x = x*GAME.level.map.blockSize;
 	this.y = y*GAME.level.map.blockSize;
@@ -25,9 +25,15 @@ function Player (playerGroup, x, y) {
 
 Player.inherits(Character);
 
+
 // Static
+Player.NEXT_ID = 1;
 Player.STATUS_ALIVE = 'STATUS_ALIVE';
 Player.STATUS_DEAD = 'STATUS_DEAD';
+
+Player.getNextId = function () {
+	return Player.NEXT_ID++;
+}
 
 Player.method('tick', function (active) {	
 	var actionOk = this.lastAction < (microtime() - this.actionInterval);
