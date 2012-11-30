@@ -144,6 +144,11 @@ Grid.method('setObjectsOnGrid', function (objects, self) {
 	
 Grid.method('gridToBlock', function (row, col) {
 	var name = col+'x'+row;
+	
+	if (typeof this.blocks[name] === 'undefined') {
+		return null;
+	}
+	
 	return this.blocks[name];
 });	
 
@@ -151,8 +156,8 @@ Grid.method('coordsToBlock', function (x, y){
 	var row = Math.floor(y/this.map.blockSize);
 	var col = Math.floor(x/this.map.blockSize);
 	return this.gridToBlock(
-		row > 0 ? row : 1,
-		col > 0 ? col : 1
+		row == 0 ? 1 : row,
+		col == 0 ? 1 : col
 	);
 });
 

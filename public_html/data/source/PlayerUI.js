@@ -11,6 +11,9 @@ PlayerUI.method('addPlayer', function (player) {
 		'	<div class="health">' + 
 		'		<div class="bar"></div>' + 
 		'	</div>' + 
+		'	<div class="ammo">' + 
+		'		<div class="bar"></div>' + 
+		'	</div>' + 
 		'	' + 
 		'</div>'
 	);	
@@ -70,6 +73,7 @@ PlayerUI.method('updatePlayer', function (player) {
 	}
 	
 	dom.find('.health .bar').width(player.health + '%');
+	dom.find('.ammo .bar').width((player.ammo/player.maxAmmo)*100 + '%');
 });
 
 PlayerUI.method('update', function () { 

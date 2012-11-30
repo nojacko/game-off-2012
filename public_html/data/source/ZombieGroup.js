@@ -75,11 +75,14 @@ ZombieGroup.method('zombieNearestToBlock', function(block) {
 	var nearest = null;
 	
 	for (var i in this.zombies) {
-		var distance = Math.distanceBetweenObjs(this.zombies[i].currentBlock, block);
 		
-		if (distance < shortestDistance) {
-			shortestDistance = distance;
-			nearest = this.zombies[i];
+		if (typeof this.zombies[i].currentBlock !== 'undefined') {
+			var distance = Math.distanceBetweenObjs(this.zombies[i].currentBlock, block);
+			
+			if (distance < shortestDistance) {
+				shortestDistance = distance;
+				nearest = this.zombies[i];
+			}
 		}
 	}
 	

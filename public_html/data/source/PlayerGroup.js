@@ -4,7 +4,7 @@ function PlayerGroup ()
 	this.activePlayer = null;
 	this.maxPlayers = 5;
 	
-	this.spawnInterval = 30;
+	this.spawnInterval = 20;
 	this.lastSpawnedTime = 0; // microtime();
 }
 

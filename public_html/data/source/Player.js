@@ -17,6 +17,10 @@ function Player (playerGroup, x, y) {
 	this.health = 100;
 	this.attackRange = GAME.level.map.blockSize*2;
 	this.attackHp = 50;
+
+	this.ammo = 25;
+	this.maxAmmo = 50;
+	this.shootingRange = GAME.level.map.blockSize*20;
 	
 	this.currentBlock = GAME.level.map.grid.coordsToBlock(this.x, this.y);
 	
@@ -43,9 +47,23 @@ Player.method('tick', function (active) {
 		var nearestZombie = GAME.level.zombieGroup.zombieNearestToBlock(this.currentBlock);
 		if (nearestZombie !== null) {
 			var distanceToPlayer = Math.distanceBetweenObjs(nearestZombie.currentBlock, this.currentBlock);
+			
 			if (distanceToPlayer < this.attackRange) {
+				// Meelee
 				nearestZombie.damage(this.attackHp);
-			} 
+			} else if (distanceToPlayer < this.shootingRange) {
+				// Fire bullet
+				if (this.ammo > 0) {
+					
+					// Is there direct line of sight?
+					if (GAME.level.isDirectPathToBlock(this.currentBlock, nearestZombie.currentBlock)) {
+						this.ammo--;
+						
+						var angleToTarget = Math.angleBetweenObjs(this, nearestZombie);	
+						GAME.level.bulletGroup.fireBullet(this.x, this.y, angleToTarget);
+					}
+				}
+			}
 		}
 	}
 	

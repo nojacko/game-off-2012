@@ -21,6 +21,7 @@ Level.method('draw', function () {
 Level.method('tick', function () {		
 	this.playerGroup.tick();	
 	this.zombieGroup.tick();
+	this.bulletGroup.tick();
 });
 
 Level.method('onClick', function () {		
@@ -56,7 +57,7 @@ Level.method('objectAtBlock', function (block, self) {
 	for (var i in this.objects) {
 		var object = this.objects[i];
 		if (object !== self) {
-			if (object.currentBlock !== null && object.currentBlock.node === block.node) {
+			if (typeof object.currentBlock !== 'undefined' && object.currentBlock !== null && object.currentBlock.node === block.node) {
 				return object;
 			}
 		}
@@ -96,6 +97,52 @@ Level.method('getRandomBlock', function (blocks, unoccupiedOnly) {
 	} while (blocks.length > 0 && block === null) 
 	
 	return block;
+});
+
+Level.method('isDirectPathToBlock', function (from, to) {
+	// Error check
+	if (typeof from === 'undefined' || typeof to === 'undefined') {
+		return false;
+	}
+	if (from === null || to === null) {
+		return false;
+	}
+	
+	var angleToTarget = Math.angleBetweenObjs(from, to);	
+	var rads = Math.toRadian(angleToTarget);
+	var vx = Math.sin(rads);
+	var vy = -Math.cos(rads);
+	
+	var x = from.x;
+	var y = from.y;
+	
+	var interval = this.map.blockSize/2;
+	var currentBlock = from;
+		
+	while (true) {
+		x += vx * interval; 
+		y += vy * interval; 
+		
+		var nextBlock = this.map.grid.coordsToBlock(x, y);
+		
+		if (nextBlock == null) {
+			return false;
+		}
+		
+		if (nextBlock.node === to.node || Math.distanceBetweenObjs(currentBlock, to) < this.map.blockSize*2) {
+			return true;
+		} 
+	
+		currentBlock = nextBlock;
+		
+		// Path blocked
+		if (currentBlock.cost === -1) {
+			return false;
+		}	
+		
+	}
+	
+	return true;
 });
 
 Level.method('loadLevelFile', function () {	
@@ -166,6 +213,7 @@ Level.method('levelAssetsLoaded', function (event) {
 	this.playerGroup = new PlayerGroup();
 	this.zombieGroup = new ZombieGroup();
 	this.playerUI = new PlayerUI();
+	this.bulletGroup = new BulletGroup();
 	
 	// Set up background
 	if (typeof this.preload.getResult('background') !== 'undefined') {
