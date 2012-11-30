@@ -121,7 +121,8 @@ Level.method('loadLevelFile', function () {
 });
 
 Level.method('loadProgress', function (event) {
-	GAME.debug ? console.log('Level.loadProgress: ' + event.loaded + '/' + event.total) : null;
+	GAME.debug ? console.log('Level.loadProgress: ' + event.loaded + '/' + event.total) : null;	
+	GAME.updateLoading('Loading... ' + Math.roundToDp(event.loaded/event.total, 2)*100 + '%');
 });
 
 Level.method('loadFileLoad', function (event) {
@@ -173,5 +174,5 @@ Level.method('levelAssetsLoaded', function (event) {
 	}
 	
 	// Pass back to game
-	GAME.start();		
+	GAME.start();	
 });

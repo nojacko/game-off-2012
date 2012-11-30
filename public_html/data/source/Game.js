@@ -4,6 +4,7 @@ var GAME = {
 	level: null,
 	frameTime: 0.01,
 	fps: null, 
+	loading: null, 
 	init : function (id, debug) 
 	{	
 		this.debug = typeof debug == 'boolean' ? debug : false;
@@ -18,11 +19,17 @@ var GAME = {
 	{
 		this.debug ? console.log('Game.loadLevel') : null;
 		
+		// Loading Screen
+		this.updateLoading('Loading... 0%');
+		
 		this.level = new Level(level);
 	},	
 	start: function () 
 	{
 		this.debug ? console.log('Game.onMapLoad') : null;
+		
+		// Remove loading
+		this.stage.removeChild(this.loading);
 		
 		// Size Canvas
 		this.canvas.width = this.level.map.xBlocks*this.level.map.blockSize + 1;
@@ -77,6 +84,19 @@ var GAME = {
 		this.fps.x = this.canvas.width;
 		this.fps.y = 0;
 		this.stage.addChild(this.fps);		
+	}, 
+	updateLoading: function (text) {
+		if (this.loading === null) {
+			this.loading = new createjs.Text('Loading... 0%', '12px Arial', '#FFFFFF');
+			this.loading.textAlign = 'center';
+			this.loading.x = 440;
+			this.loading.y = 50;
+			this.stage.addChild(this.loading);	
+		} else {
+			this.loading.text = text;
+		}
+		
+		this.stage.update();	
 	}, 
 	tick: function ()
 	{
