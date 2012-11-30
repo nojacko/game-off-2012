@@ -2,6 +2,7 @@ function ZombieGroup ()
 {
 	this.spawnInterval = 5;
 	this.lastSpawnedTime = 0; // microtime();
+	this.totalSpawns = 0;
 	
 	this.zombies = [];
 }
@@ -25,6 +26,16 @@ ZombieGroup.method('tick', function() {
 			this.zombies[index].addPath(path);			
 			
 			this.lastSpawnedTime = microtime(); // 1 sec
+			this.totalSpawns++;
+			
+			// Gradually increase spawn frequency
+			GAME.debug ? console.log('Zombies spawned: ' + this.totalSpawns) : null;
+			if (this.totalSpawns % 10 == 0) {
+				if (this.spawnInterval > 1) {
+					this.spawnInterval -= 0.5;
+					GAME.debug ? console.log('Zombie spawn interval: ' + this.spawnInterval) : null;
+				}
+			}
 		} else {
 			this.lastSpawnedTime += 1000; // 1 sec
 		}
