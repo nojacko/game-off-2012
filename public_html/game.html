@@ -38,43 +38,72 @@
 
 <body>
 	<header>
-		<h1>Zombie Game <i>(Working Title)</i></h1>
-		<p><strong>Zombie Game is work in progress.</strong></p>
-		<p>More information about the game can be found in my blog post <a href="http://www.nojacko.com/github-game-off">GitHub Game Off</a>.</p>
+		<h1>Zombie Game</h1>
+
+		<p>You awake one, cold winters day, lying on the floor of the **clone** machine you built for the military. The usually busy lab is empty and the base deserted. You can hear growns in the distance... zombies!</p>
+			
+		<h2>Zombies</h2>
+		<p>They can smell you. They'll hunt you down wherever you are. You cannot hide! </p>
+			
+		<p>They'll start spawning once every 6 seconds (level 1), for ever 10 spawns 1/2 second is taken away until it reaching 1 second (level 10).</p>
+			
+		<h2>Cloning</h2>
+		<p>The cloning maching is still on and it has you're DNA on file. Every 30 seconds it'll produce a clone of you (maximum of 5 players at anyone time).</p>
+
+		<h2>Controls</h2>
+		<ul>
+			<li>Select player (blue) by either clicking it or via the left hand menu.</li>
+			<li>Point and click to where you want it to go.</li>
+			<li>Movement can be queued up by clicking multiple locations.</li>
+			<li>Ammo can be replenished in the armoury, marked by the box.</li>
+			<li>Health can be restored by visiting the hospital, marked by the red cross.</li>
+			<li>You can stop a player with the X by their name.</li>
+		</ul>
+		
+		<h2>Attacking</h2>
+		<p>Your players will automatically fire bullets as zombies when in range, and melee them at close quarters.</p>
 	</header>
 	
-	<div id="gameBoarder">
+	<div id="play">
+		<a href="#gameBoarder" onclick="alert('Some times the game crashes :(. Not been able to track down the issue but it\'s to do with route finding, sorry.'); $('#gameBoarder').show(); GAME.init('game'); GAME.loadLevel('base'); $(this).remove();">Play Now!</a >
+	</div>
+	
+	<div id="gameBoarder" style="display:none;">
 		<div id="ui"></div>
 		<!-- Width and height should be multiples of 16, plus 1 -->
 		<canvas id="game" width="881" height="593"></canvas>
 		<div class="clear"></div>
 	</div>
-	
-	<p>
-		<a href="#gameBoarder" onclick="GAME.toggleDebug();">Toggle debug</a>. 
-	</p>
-	
+		
 	<footer>
+		<h2>Credits</h2>
 		<p>
 			Created by 
 			<a href="http://www.jamesdavidjackson.com">James Jackson</a> for 
-			<a href="http://github.com/blog/1303-github-game-off">GitHub Game Off</a>.
-		</p>
-		<p>
+			<a href="http://github.com/blog/1303-github-game-off">GitHub Game Off</a>. 
 			<a href="http://github.com/nojacko/game-off-2012">Source code</a> hosted by GitHub.
 		</p>
-		<p>
-			Powered by 
-			<a href="http://www.createjs.com">CreateJS</a>, 
-			<a href="http://github.com/nojacko/dijkstras-js">dijkstras-js</a>.
-		</p>
+		<ul>
+			<li>
+			<a href="http://www.createjs.com">CreateJS</a> </li>
+			<li>
+			<a href="http://github.com/nojacko/dijkstras-js">Dijkstras-js</a> (Yeah, I'm crediting myself)</li>
+			<li><a href="http://www.jQuery.com">jQuery</a></li>
+			</ul>
+		<h2>
+				
+		<h2>Art</h2>		
+		<ul>
+			<li><a href="http://opengameart.org/content/grassy-carpet-texture">http://opengameart.org/content/grassy-carpet-texture</a></li>
+			<li><a href="http://opengameart.org/content/dirt-002">http://opengameart.org/content/dirt-002</a></li>
+			<li><a href="http://opengameart.org/content/seamless-beach-sand">http://opengameart.org/content/seamless-beach-sand</a></li>
+			<li><a href="http://opengameart.org/content/road-tile-textures">http://opengameart.org/content/road-tile-textures</a></li>
+			<li><a href="http://opengameart.org/content/plain-concrete-256px">http://opengameart.org/content/plain-concrete-256px</a></li>
+			<li><a href="http://opengameart.org/content/steel-plate-tiles">http://opengameart.org/content/steel-plate-tiles</a></li>
+			<li><a href="http://opengameart.org/content/simple-toon-wooden-crate-texture">http://opengameart.org/content/simple-toon-wooden-crate-texture</a></li>
+		</ul>
 	</footer>
-	
-	<script>
-	GAME.init('game');
-	GAME.loadLevel('base');
-	</script>
-	
+		
 	<script type="text/javascript">
 	var _gaq = _gaq || [];
 	_gaq.push(['_setAccount', 'UA-366768-14']);

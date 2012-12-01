@@ -4,13 +4,18 @@ body {
 	font-family: Arial, sans-serif; width: 1000px; margin: 20px auto; 
 }
 
-p, h1 { margin: 0px 0px 10px 0px; }
-p { text-align: center; }
-h1 { text-align: center; font-weight: bold; }
-h1 i { color: #999; font-style: italic; font-weight: normal; }
+p, h1, h2, h3, ul { margin: 0px 0px 10px 0px; }
+p { text-align: left; font-size: 100%; }
+h1 { font-size: 150%; text-align: center; font-weight: bold; }
+h2 { font-size: 120%; font-weight: bold; }
+h3 { font-size: 100%; font-weight: bold; }
 footer { margin-top: 25px; }
-footer p { font-size: 80%; }
 .clear { clear: both; }
+
+ul { list-style-type: disc; list-style-position: inside; }
+
+#play { margin: 50px 0; text-align: center; }
+#play a { border: 1px solid #777777; background: #6e9e2d; color: white; font: bold 20px 'Trebuchet MS'; padding: 10px; cursor: pointer; border-radius: 4px; }
 
 /* Links */
 a { color: #DB323A; text-decoration: underline; }

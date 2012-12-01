@@ -7,16 +7,15 @@ Zombie Game is a point 'n' click zombie suruval game. The purpose of the game is
 
 
 ## About
-You awake one, cold winters day, lying on the floor of the **clone** machine you built for the military. The usually busy lab is empty and the base deserted.
-
-### Cloning
-The cloning maching is still on and it has you're DNA on file. Every 30 seconds it'll produce a clone of you (maximum of 5 players at anyone time).
+You awake one, cold winters day, lying on the floor of the **clone** machine you built for the military. The usually busy lab is empty and the base deserted. You can hear growns in the distance... zombies!
 
 ### Zombies
 They can smell you. They'll hunt you down wherever you are. You cannot hide! 
 
 They'll start spawning once every 6 seconds (level 1), for ever 10 spawns 1/2 second is taken away until it reaching 1 second (level 10).
 
+### Cloning
+The cloning maching is still on and it has you're DNA on file. Every 30 seconds it'll produce a clone of you (maximum of 5 players at anyone time).
 
 ## Controls
 * Select player (blue) by either clicking it or via the left hand menu.
@@ -25,6 +24,9 @@ They'll start spawning once every 6 seconds (level 1), for ever 10 spawns 1/2 se
 * Ammo can be replenished in the armoury, marked by the box.
 * Health can be restored by visiting the hospital, marked by the red cross.
 * You can stop a player with the X by their name.
+
+## Attacking
+Your players will automatically fire bullets as zombies when in range, and melee them at close quarters.
 
 ## Known Issues
 Some times the game will freeze. It's related to the route finding but I haven't managed to track it down.
