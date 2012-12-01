@@ -16,7 +16,7 @@ function Block (map, row, col, data)
 	this.colour = (typeof data['colour'] === 'undefined') ? '' : data['colour'];
 	
 	this.rgb = hexToRgb(this.colour);
-	this.rgbaStr = (this.rgb === null) ? '' : 'rgba('+this.rgb.r+','+this.rgb.g+','+this.rgb.b+',0.2)';
+	this.rgbaStr = (this.rgb === null) ? '' : 'rgba('+this.rgb.r+','+this.rgb.g+','+this.rgb.b+',0.5)';
 }
 
 Block.method('canLinkTo', function (to) {
