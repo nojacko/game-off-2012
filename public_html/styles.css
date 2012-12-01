@@ -55,10 +55,10 @@ a:hover { color: #55B550; }
 }
 
 #ui .active {
-	border: 1px solid #FFFF00;
+	border: 1px solid #FF6600;
 }
 #ui .hover {
-	border: 1px solid #555555;
+	border: 1px solid #000000;
 }
 
 

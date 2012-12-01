@@ -5,7 +5,7 @@ function Zombie (zombieGroup, x, y) {
 	this.y = y*GAME.level.map.blockSize;
 	
 	this.speed = 2.5;
-	this.colour = '#33CC33';
+	this.colour = '#006600';
 	
 	this.lastAction = 0;
 	this.actionInterval = 2;

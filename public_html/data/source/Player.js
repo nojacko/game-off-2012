@@ -8,7 +8,10 @@ function Player (playerGroup, x, y) {
 	this.y = y*GAME.level.map.blockSize;
 	
 	this.playerGroup = playerGroup; 
-	this.colour = '#FFFFFF';
+	this.colour = '#003399';
+	this.colourDefault = '#003399';
+	this.colourHover = '#FF6600';
+	this.colourActive = '#FF6600';
 	
 	this.status = Player.STATUS_ALIVE;
 
@@ -99,10 +102,10 @@ Player.method('damage', function (hp) {
 Player.method('setActive', function (active) {
 	if (active) {
 		this.playerGroup.setActive(this);
-		this.colour = '#FFFF00'; 		
+		this.colour = this.colourActive; 		
 	} else {
 		this.playerGroup.setActive(null);
-		this.colour = '#FFFFFF'; 		
+		this.colour = this.colourDefault;		
 	}
 	this.render();
 });
@@ -128,14 +131,14 @@ Player.method('onClick', function () {
 
 Player.method('onMouseOver', function () { 
 	if (this.playerGroup.getActive() !== this) {
-		this.colour = '#555555'; 
+		this.colour = this.colourHover;
 		this.render();
 	}
 });
 
 Player.method('onMouseOut', function () { 
 	if (this.playerGroup.getActive() !== this) {
-		this.colour = '#FFFFFF'; 
+		this.colour = this.colourDefault;
 		this.render();
 	}
 });
