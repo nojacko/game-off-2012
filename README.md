@@ -3,7 +3,7 @@
 Zombie Game is a point 'n' click zombie suruval game. The purpose of the game is to kill all the zombies. 
 [Play it here!](http://scripts.nojacko.com/gameoff/game.html)
 
-![](http://scripts.nojacko.com/gameoff/screenshot.jpg)
+![](http://scripts.nojacko.com/gameoff/screenshot.jpg?v=2)
 
 
 ## About
