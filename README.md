@@ -1,13 +1,21 @@
 ## Zombie Game
 
-Zombie Game is a point 'n' click zombie suruval game. The purpose of the game is to kill all the zombies.
+Zombie Game is a point 'n' click zombie suruval game. The purpose of the game is to kill all the zombies. 
+[Play it here!](http://scripts.nojacko.com/gameoff/game.html)
 
 ![](http://scripts.nojacko.com/gameoff/screenshot.jpg)
 
-[Play it here!](http://scripts.nojacko.com/gameoff/game.html)
 
 ## About
-You awake one, cold winters day in the clone machine you built for the military. The usually busy lab is empty and the base deserted.
+You awake one, cold winters day, lying on the floor of the **clone** machine you built for the military. The usually busy lab is empty and the base deserted.
+
+### Cloning
+The cloning maching is still on and it has you're DNA on file. Every 30 seconds it'll produce a clone of you (maximum of 5 players at anyone time).
+
+### Zombies
+They can smell you. They'll hunt you down wherever you are. You cannot hide! 
+
+They'll start spawning once every 6 seconds (level 1), for ever 10 spawns 1/2 second is taken away until it reaching 1 second (level 10).
 
 
 ## Controls
@@ -27,13 +35,13 @@ Some times the game will freeze. It's related to the route finding but I haven't
 * [jQuery](http://www.jQuery.com)
 
 ### Art
-http://opengameart.org/content/grassy-carpet-texture
-http://opengameart.org/content/dirt-002
-http://opengameart.org/content/seamless-beach-sand
-http://opengameart.org/content/road-tile-textures
-http://opengameart.org/content/plain-concrete-256px
-http://opengameart.org/content/steel-plate-tiles
-http://opengameart.org/content/simple-toon-wooden-crate-texture
+* http://opengameart.org/content/grassy-carpet-texture
+* http://opengameart.org/content/dirt-002
+* http://opengameart.org/content/seamless-beach-sand
+* http://opengameart.org/content/road-tile-textures
+* http://opengameart.org/content/plain-concrete-256px
+* http://opengameart.org/content/steel-plate-tiles
+* http://opengameart.org/content/simple-toon-wooden-crate-texture
 
 
 ## Future
