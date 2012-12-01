@@ -12,7 +12,7 @@ function Bullet (bulletGroup, x, y, angle) {
 	
 	this.speed = 20;
 	this.damageLower = 40;
-	this.damageUpper = 60;
+	this.damageUpper = 50;
 	this.radius = GAME.level.map.blockSize/2;
 	
 	this.distanace = 0;
