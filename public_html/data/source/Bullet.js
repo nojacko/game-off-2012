@@ -52,7 +52,7 @@ Bullet.method('tick', function () {
 			var nearestZombie = GAME.level.zombieGroup.zombieNearestToBlock(this.currentBlock);
 			if (nearestZombie !== null && nearestZombie.currentBlock !== null) {
 				var distance = Math.distanceBetweenObjs(nearestZombie.currentBlock, this.currentBlock);
-				if (distance <= this.radius) {				
+				if (distance !== null && distance <= this.radius) {				
 					nearestZombie.damage(Math.randomNumberBetween(this.damageLower, this.damageUpper));
 					this.bulletGroup.removeBullet(this);
 				}

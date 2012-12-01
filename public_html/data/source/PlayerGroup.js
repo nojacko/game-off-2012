@@ -116,7 +116,7 @@ PlayerGroup.method('playerNearestToBlock', function(block) {
 	for (var i in this.players) {
 		var distance = Math.distanceBetweenObjs(this.players[i].currentBlock, block);
 		
-		if (distance < shortestDistance) {
+		if (distance !== null && distance < shortestDistance) {
 			shortestDistance = distance;
 			nearestBlock = this.players[i];
 		}

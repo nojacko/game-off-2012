@@ -29,7 +29,8 @@ Character.method('processMoveQueue', function () {
 			var rerouteTo = this.getFinalDestination();
 			
 			// If close, stop
-			if (Math.distanceBetweenObjs(rerouteTo, this.currentBlock) < GAME.level.map.blockSize*1.5) {
+			var distance = Math.distanceBetweenObjs(rerouteTo, this.currentBlock)
+			if (distance === null || distance < GAME.level.map.blockSize*1.5) {
 				this.stop();			
 			} else {
 				this.removeOccupiedNodesFromPath();
@@ -66,7 +67,6 @@ Character.method('processMoveQueue', function () {
 	}
 	
 	if (this.moveTarget !== null) {	
-		var distance = Math.distanceBetweenObjs(this, this.moveTarget);
 		var cost = 1;
 		if (typeof this.moveLastTarget !== 'undefined' && this.moveLastTarget !== null) {
 			if (typeof GAME.level.map.grid.dijkstras.graph[this.moveLastTarget.node] !== 'undefined' && typeof GAME.level.map.grid.dijkstras.graph[this.moveLastTarget.node][this.moveTarget.node] !== 'undefined') {
@@ -74,8 +74,9 @@ Character.method('processMoveQueue', function () {
 			}
 		}
 		var moveDistance = (this.speed*GAME.frameTime*GAME.level.map.blockSize)/cost;
+		var distance = Math.distanceBetweenObjs(this, this.moveTarget);
 		
-		if (distance < moveDistance) {
+		if (distance === null || distance < moveDistance) {
 			// Finish movement
 			this.x = this.moveTarget.x;
 			this.y = this.moveTarget.y;

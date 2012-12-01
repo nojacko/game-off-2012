@@ -184,7 +184,7 @@ Grid.method('blockNearestToBlock', function(block, blocks) {
 	for (var i in blocks) {
 		var distance = Math.distanceBetweenObjs(blocks[i], block);
 		
-		if (distance < shortestDistance) {
+		if (distance !== null && distance < shortestDistance) {
 			shortestDistance = distance;
 			nearestBlock = blocks[i];
 		}

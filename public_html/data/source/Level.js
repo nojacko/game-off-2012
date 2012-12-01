@@ -134,7 +134,8 @@ Level.method('isDirectPathToBlock', function (from, to) {
 			return false;
 		}
 		
-		if (nextBlock.node === to.node || Math.distanceBetweenObjs(currentBlock, to) < this.map.blockSize*2) {
+		var distance = Math.distanceBetweenObjs(currentBlock, to);
+		if (nextBlock.node === to.node || (distance !== null && distance < this.map.blockSize*2)) {
 			return true;
 		} 
 	

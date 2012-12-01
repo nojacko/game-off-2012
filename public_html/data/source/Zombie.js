@@ -41,7 +41,7 @@ Zombie.method('tick', function (active) {
 	// Is player in range
 	if (actionOk && this.targetPlayer !== null) {		
 		var distanceToPlayer = Math.distanceBetweenObjs(this.targetPlayer.currentBlock, this.currentBlock);
-		if (distanceToPlayer < this.attackRange) {
+		if (distanceToPlayer !== null && distanceToPlayer < this.attackRange) {
 			this.status = Zombie.STATUS_ATTACKING;
 		} 
 	}

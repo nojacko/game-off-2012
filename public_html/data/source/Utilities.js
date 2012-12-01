@@ -10,6 +10,9 @@ Math.toRadian = function (x) {
 * Uses a^2 + b^2 = c^2
 */ 
 Math.distanceBetweenObjs = function (obj1, obj2) {
+	if (typeof obj1 === 'undefined' || typeof obj2 === 'undefined' || obj1 === null || obj2 === null) {
+		return null;
+	}
 	return Math.distance2D(obj1.x, obj1.y, obj2.x, obj2.y)
 }
 Math.distance2D = function (x1, y1, x2, y2) { 
