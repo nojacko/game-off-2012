@@ -4,7 +4,7 @@ function ZombieGroup ()
 	this.minSpawnInterval = 1;
 	this.lastSpawnedTime = 0; // microtime();
 	this.totalSpawns = 0;
-	this.spawnsPerLevel = 5;
+	this.spawnsPerLevel = 10;
 	
 	this.zombies = [];
 }
