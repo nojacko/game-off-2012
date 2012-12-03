@@ -12,10 +12,10 @@ You awake one, cold winters day, lying on the floor of the **clone** machine you
 ### Zombies
 They can smell you. They'll hunt you down wherever you are. You cannot hide! 
 
-They'll start spawning once every 6 seconds (level 1), for ever 10 spawns 1/2 second is taken away until it reaching 1 second (level 10).
+They'll start spawning once every 6 seconds (level 1). For every 10 spawns, half a second is taken away until it reaches 1 second (level 10) between spawns.
 
 ### Cloning
-The cloning maching is still on and it has you're DNA on file. Every 30 seconds it'll produce a clone of you (maximum of 5 players at anyone time).
+The cloning maching is still on and it has your DNA on file. Every 30 seconds it'll produce a clone of you (maximum of 5 players at anyone time).
 
 ## Controls
 * Select player (blue) by either clicking it or via the left hand menu.
